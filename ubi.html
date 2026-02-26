@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>UBI — Ivonne González</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #f8f7f5;
+      --surface: #efefed;
+      --border: rgba(0,0,0,0.08);
+      --text: #111110;
+      --muted: rgba(17,17,16,0.45);
+      --sans: 'Geist', Helvetica, sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--sans);
+      font-size: 16px;
+      line-height: 1.6;
+      overflow-x: hidden;
+      cursor: none;
+    }
+
+    /* Cursor */
+    .cursor {
+      width: 10px; height: 10px;
+      background: var(--text);
+      border-radius: 50%;
+      position: fixed; top: 0; left: 0;
+      pointer-events: none;
+      z-index: 9999;
+      transform: translate(-50%,-50%);
+      transition: width 0.3s, height 0.3s;
+      mix-blend-mode: multiply;
+    }
+    .cursor.hovered { width: 40px; height: 40px; }
+
+    /* Nav */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 28px 48px;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid transparent;
+      transition: border-color 0.4s;
+    }
+    nav.scrolled { border-color: var(--border); }
+    .nav-logo {
+      font-size: 1rem; font-weight: 400;
+      color: var(--text); text-decoration: none;
+    }
+    .nav-back {
+      display: flex; align-items: center; gap: 8px;
+      color: var(--muted); text-decoration: none;
+      font-size: 0.82rem; letter-spacing: 0.06em;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+    .nav-back:hover { color: var(--text); }
+
+    /* Hero */
+    #hero {
+      padding: 160px 48px 80px;
+      border-bottom: 1px solid var(--border);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: end;
+    }
+    .hero-label {
+      font-size: 0.72rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 20px;
+    }
+    .hero-title {
+      font-size: clamp(2.8rem, 6vw, 5.5rem);
+      font-weight: 300;
+      line-height: 1.05;
+      letter-spacing: -0.03em;
+    }
+    .hero-title em { font-style: normal; color: var(--muted); }
+    .hero-meta { display: flex; flex-direction: column; gap: 28px; padding-bottom: 8px; }
+    .meta-item { display: flex; flex-direction: column; gap: 4px; }
+    .meta-label {
+      font-size: 0.68rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .meta-value { font-size: 0.95rem; font-weight: 400; }
+
+    /* Hero image */
+    .hero-image {
+      width: 100%;
+      aspect-ratio: 16/9;
+      object-fit: cover;
+      display: block;
+      border-radius: 8px;
+    }
+    .hero-image-wrap {
+      grid-column: span 2;
+      overflow: hidden;
+      border-radius: 8px;
+      margin-top: 40px;
+    }
+
+    /* Content */
+    .case-content {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 100px 48px;
+    }
+
+    /* Sections */
+    .cs-section { margin-bottom: 100px; }
+    .cs-label {
+      font-size: 0.68rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .cs-label::before {
+      content: '';
+      width: 24px; height: 1px;
+      background: var(--muted);
+    }
+    .cs-heading {
+      font-size: clamp(1.6rem, 3vw, 2.4rem);
+      font-weight: 300;
+      line-height: 1.2;
+      letter-spacing: -0.02em;
+      margin-bottom: 24px;
+    }
+    .cs-text {
+      font-size: 1rem;
+      color: var(--muted);
+      line-height: 1.85;
+      font-weight: 300;
+      margin-bottom: 20px;
+    }
+    .cs-text strong { color: var(--text); font-weight: 500; }
+
+    /* Highlight box */
+    .cs-highlight {
+      background: var(--surface);
+      border-radius: 8px;
+      padding: 32px 36px;
+      margin: 32px 0;
+      border-left: 3px solid var(--text);
+    }
+    .cs-highlight p {
+      font-size: 1.05rem;
+      font-weight: 300;
+      line-height: 1.7;
+      color: var(--text);
+    }
+
+    /* Stats row */
+    .cs-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2px;
+      margin: 40px 0;
+    }
+    .stat {
+      background: var(--surface);
+      padding: 28px 24px;
+      border-radius: 6px;
+      text-align: center;
+    }
+    .stat-number {
+      font-size: 2.5rem;
+      font-weight: 300;
+      letter-spacing: -0.04em;
+      line-height: 1;
+      margin-bottom: 8px;
+    }
+    .stat-label {
+      font-size: 0.75rem;
+      color: var(--muted);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    /* Image */
+    .cs-img {
+      width: 100%;
+      border-radius: 8px;
+      display: block;
+      margin: 40px 0;
+    }
+    .cs-img-caption {
+      font-size: 0.78rem;
+      color: var(--muted);
+      text-align: center;
+      margin-top: -28px;
+      margin-bottom: 40px;
+    }
+
+    /* Two column images */
+    .cs-img-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3px;
+      margin: 40px 0;
+    }
+    .cs-img-grid img {
+      width: 100%;
+      border-radius: 6px;
+      display: block;
+      aspect-ratio: 4/3;
+      object-fit: cover;
+    }
+
+    /* Process steps */
+    .cs-process {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      margin: 32px 0;
+    }
+    .process-step {
+      display: grid;
+      grid-template-columns: 48px 1fr;
+      gap: 20px;
+      padding: 24px;
+      background: var(--surface);
+      border-radius: 6px;
+      align-items: start;
+    }
+    .step-number {
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
+      color: var(--muted);
+      padding-top: 4px;
+    }
+    .step-content h4 {
+      font-size: 1rem;
+      font-weight: 500;
+      margin-bottom: 6px;
+    }
+    .step-content p {
+      font-size: 0.88rem;
+      color: var(--muted);
+      font-weight: 300;
+      line-height: 1.6;
+    }
+
+    /* Full-width image */
+    .cs-img-full {
+      width: calc(100% + 96px);
+      margin-left: -48px;
+      display: block;
+      margin-top: 60px;
+      margin-bottom: 60px;
+    }
+
+    /* Divider */
+    .cs-divider {
+      width: 100%;
+      height: 1px;
+      background: var(--border);
+      margin: 80px 0;
+    }
+
+    /* Next project */
+    .next-project {
+      border-top: 1px solid var(--border);
+      padding: 80px 48px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .next-label {
+      font-size: 0.72rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 8px;
+    }
+    .next-title {
+      font-size: 2rem;
+      font-weight: 300;
+      letter-spacing: -0.02em;
+    }
+    .next-arrow {
+      font-size: 2rem;
+      color: var(--muted);
+      text-decoration: none;
+      transition: transform 0.3s, color 0.2s;
+    }
+    .next-arrow:hover { transform: translate(6px, -6px); color: var(--text); }
+
+    /* Reveal */
+    .reveal {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .reveal.visible { opacity: 1; transform: none; }
+
+    /* Footer */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 28px 48px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: var(--muted);
+      font-size: 0.78rem;
+    }
+    .social-links { display: flex; gap: 24px; }
+    .social-links a {
+      color: var(--muted); text-decoration: none;
+      font-size: 0.78rem; text-transform: uppercase;
+      letter-spacing: 0.05em; transition: color 0.2s;
+    }
+    .social-links a:hover { color: var(--text); }
+
+    @media (max-width: 900px) {
+      nav { padding: 20px 24px; }
+      #hero { grid-template-columns: 1fr; gap: 40px; padding: 120px 24px 60px; }
+      .hero-image-wrap { grid-column: span 1; }
+      .case-content { padding: 60px 24px; }
+      .cs-img-full { width: calc(100% + 48px); margin-left: -24px; }
+      .cs-stats { grid-template-columns: 1fr; }
+      .cs-img-grid { grid-template-columns: 1fr; }
+      .next-project { padding: 60px 24px; flex-direction: column; align-items: flex-start; gap: 20px; }
+      footer { padding: 24px; flex-direction: column; gap: 12px; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="cursor" id="cursor"></div>
+
+  <nav id="nav">
+    <a href="index.html" class="nav-logo">Ivonne González</a>
+    <a href="index.html" class="nav-back">← All work</a>
+  </nav>
+
+  <!-- Hero -->
+  <section id="hero">
+    <div>
+      <p class="hero-label">UBI · Mobile App · 2024</p>
+      <h1 class="hero-title">
+        Redesigning the app<br>
+        that <em>automates</em><br>
+        your car insurance
+      </h1>
+    </div>
+    <div class="hero-meta">
+      <div class="meta-item">
+        <span class="meta-label">My Role</span>
+        <span class="meta-value">Lead UX/UI Designer</span>
+      </div>
+      <div class="meta-item">
+        <span class="meta-label">Timeline</span>
+        <span class="meta-value">12 weeks · 2024</span>
+      </div>
+      <div class="meta-item">
+        <span class="meta-label">Platform</span>
+        <span class="meta-value">iOS & Android</span>
+      </div>
+      <div class="meta-item">
+        <span class="meta-label">Tools</span>
+        <span class="meta-value">Figma, Maze, Miro</span>
+      </div>
+    </div>
+    <div class="hero-image-wrap">
+      <img class="hero-image" src="https://picsum.photos/seed/ubi-hero/1400/788" alt="UBI App Hero" />
+    </div>
+  </section>
+
+  <!-- Case study content -->
+  <div class="case-content">
+
+    <!-- Overview -->
+    <div class="cs-section reveal">
+      <p class="cs-label">Overview</p>
+      <h2 class="cs-heading">A car insurance app stuck in 2018</h2>
+      <p class="cs-text">
+        UBI (Usage-Based Insurance) is a mobile app that tracks driving behavior and automatically adjusts car insurance premiums based on how you actually drive — not just your age and zip code. The concept is powerful, but the existing app was failing to communicate its value.
+      </p>
+      <p class="cs-text">
+        Users were confused about <strong>how the tracking worked, what data was being collected, and why their premium changed</strong> month to month. Trust was low, onboarding completion was under 40%, and the app had a 2.3 star rating on the App Store.
+      </p>
+
+      <div class="cs-highlight">
+        <p>"I have no idea why my premium went up this month. I thought I was driving the same as always." — User interview participant</p>
+      </div>
+    </div>
+
+    <!-- Stats -->
+    <div class="cs-section reveal">
+      <div class="cs-stats">
+        <div class="stat">
+          <div class="stat-number">38%</div>
+          <div class="stat-label">Onboarding completion rate</div>
+        </div>
+        <div class="stat">
+          <div class="stat-number">2.3★</div>
+          <div class="stat-label">App Store rating</div>
+        </div>
+        <div class="stat">
+          <div class="stat-number">67%</div>
+          <div class="stat-label">Users confused by premium changes</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Problem -->
+    <div class="cs-section reveal">
+      <p class="cs-label">Problem</p>
+      <h2 class="cs-heading">Opacity kills trust in insurance</h2>
+      <p class="cs-text">
+        Through user interviews and usability tests with 18 participants, three core problems emerged consistently:
+      </p>
+
+      <div class="cs-process">
+        <div class="process-step">
+          <span class="step-number">01</span>
+          <div class="step-content">
+            <h4>No transparency on data collection</h4>
+            <p>Users didn't know what the app was tracking — GPS, speed, phone usage — or when. This created anxiety and a sense of surveillance rather than benefit.</p>
+          </div>
+        </div>
+        <div class="process-step">
+          <span class="step-number">02</span>
+          <div class="step-content">
+            <h4>Incomprehensible scoring system</h4>
+            <p>The driving score was displayed as a single number with no context. Users couldn't understand what behaviors influenced it or how to improve.</p>
+          </div>
+        </div>
+        <div class="process-step">
+          <span class="step-number">03</span>
+          <div class="step-content">
+            <h4>Onboarding asked too much too fast</h4>
+            <p>The app requested location permissions, vehicle details, and payment info in the first 3 screens — before explaining any value. Drop-off was immediate.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Process -->
+    <div class="cs-section reveal">
+      <p class="cs-label">Process</p>
+      <h2 class="cs-heading">Research → Define → Design → Test</h2>
+      <p class="cs-text">
+        I led the end-to-end design process across four phases over 12 weeks, working closely with the product manager, two engineers, and the data science team responsible for the scoring algorithm.
+      </p>
+
+      <img class="cs-img" src="https://picsum.photos/seed/ubi-process/760/400" alt="Design process diagram" />
+      <p class="cs-img-caption">Design process overview — from discovery to handoff</p>
+
+      <p class="cs-text">
+        The discovery phase included <strong>18 user interviews</strong>, a competitive analysis of 8 insurance apps (Metromile, Root, Allstate Drivewise), and a heuristic evaluation of the existing app. Key insight: every competing app treated transparency as a feature, not a given.
+      </p>
+
+      <p class="cs-text">
+        I synthesized findings into a <strong>Jobs to be Done framework</strong> — users weren't just looking to save money on insurance, they wanted to feel like the app was working <em>for</em> them, not monitoring them.
+      </p>
+    </div>
+
+    <!-- Solution -->
+    <div class="cs-section reveal">
+      <p class="cs-label">Solution</p>
+      <h2 class="cs-heading">Transparency as the core design principle</h2>
+      <p class="cs-text">
+        Every design decision was filtered through one question: <strong>does this help users understand what's happening and why?</strong> This shaped three major design changes.
+      </p>
+
+      <div class="cs-img-grid">
+        <img src="https://picsum.photos/seed/ubi-s1/600/450" alt="New onboarding screens" />
+        <img src="https://picsum.photos/seed/ubi-s2/600/450" alt="Scoring breakdown screen" />
+      </div>
+
+      <h3 style="font-size:1.2rem; font-weight:500; margin-bottom:12px; margin-top:8px;">Redesigned onboarding — value first, permissions later</h3>
+      <p class="cs-text">
+        The new onboarding shows users exactly how much they could save before asking for anything. Permissions are requested contextually — location access is asked only when the first trip is about to start, with a clear explanation of why it's needed and what it enables.
+      </p>
+
+      <img class="cs-img" src="https://picsum.photos/seed/ubi-onboarding/760/500" alt="Onboarding flow redesign" />
+      <p class="cs-img-caption">Before vs. After — onboarding completion improved from 38% to 74%</p>
+
+      <h3 style="font-size:1.2rem; font-weight:500; margin-bottom:12px; margin-top:32px;">Driving score breakdown — from black box to glass box</h3>
+      <p class="cs-text">
+        The score is now broken into four visible factors: <strong>speed, braking, phone usage, and time of day</strong>. Each factor shows your trend over the last 30 days and offers one actionable tip. Users can finally see exactly what moved their score.
+      </p>
+
+      <div class="cs-img-grid">
+        <img src="https://picsum.photos/seed/ubi-score1/600/450" alt="Score breakdown screen" />
+        <img src="https://picsum.photos/seed/ubi-score2/600/450" alt="Score history chart" />
+      </div>
+
+      <h3 style="font-size:1.2rem; font-weight:500; margin-bottom:12px; margin-top:32px;">Trip summary — a receipt for every drive</h3>
+      <p class="cs-text">
+        Every trip now gets a summary screen that shows the route, score, and key moments (hard braking events, phone usage). This turned a source of anxiety into a moment of engagement — users started checking it voluntarily.
+      </p>
+    </div>
+
+    <div class="cs-divider"></div>
+
+    <!-- Results -->
+    <div class="cs-section reveal">
+      <p class="cs-label">Results</p>
+      <h2 class="cs-heading">Measurable impact after launch</h2>
+      <p class="cs-text">
+        The redesigned app launched to a beta group of 2,000 users before full rollout. Results after 8 weeks of beta:
+      </p>
+
+      <div class="cs-stats">
+        <div class="stat">
+          <div class="stat-number">74%</div>
+          <div class="stat-label">Onboarding completion (was 38%)</div>
+        </div>
+        <div class="stat">
+          <div class="stat-number">4.6★</div>
+          <div class="stat-label">App Store rating (was 2.3★)</div>
+        </div>
+        <div class="stat">
+          <div class="stat-number">+31%</div>
+          <div class="stat-label">Weekly active users</div>
+        </div>
+      </div>
+
+      <div class="cs-highlight">
+        <p>"Now I actually understand why my insurance is the price it is. I feel like the app is finally on my side." — Beta tester feedback</p>
+      </div>
+
+      <p class="cs-text">
+        The trip summary feature became unexpectedly popular — 60% of active users checked their trip summary after every drive, a behavior that wasn't anticipated and that significantly increased session frequency.
+      </p>
+    </div>
+
+    <!-- Learnings -->
+    <div class="cs-section reveal">
+      <p class="cs-label">Learnings</p>
+      <h2 class="cs-heading">What I'd do differently</h2>
+      <p class="cs-text">
+        In hindsight, I would have involved the data science team earlier in the process. The scoring algorithm had constraints I only discovered during handoff, which required some late-stage design adjustments. Closer collaboration from week one would have saved time and produced a more technically feasible first proposal.
+      </p>
+      <p class="cs-text">
+        I also underestimated how much users valued the <strong>privacy control settings</strong> — it was one of the most-praised features in feedback, but it was designed as a secondary screen. In the next iteration, I'd give it more prominence in the main navigation.
+      </p>
+    </div>
+
+  </div>
+
+  <!-- Next project -->
+  <div class="next-project">
+    <div>
+      <p class="next-label">Next project</p>
+      <h3 class="next-title">Essity →</h3>
+    </div>
+    <a href="essity.html" class="next-arrow">↗</a>
+  </div>
+
+  <footer>
+    <span>© 2025 Ivonne González García</span>
+    <div class="social-links">
+      <a href="mailto:ivygzzg@gmail.com">ivygzzg@gmail.com</a>
+      <a href="#">LinkedIn</a>
+    </div>
+  </footer>
+
+  <script>
+    const cursor = document.getElementById('cursor');
+    document.addEventListener('mousemove', e => {
+      cursor.style.left = e.clientX + 'px';
+      cursor.style.top = e.clientY + 'px';
+    });
+    document.querySelectorAll('a, button').forEach(el => {
+      el.addEventListener('mouseenter', () => cursor.classList.add('hovered'));
+      el.addEventListener('mouseleave', () => cursor.classList.remove('hovered'));
+    });
+
+    const nav = document.getElementById('nav');
+    window.addEventListener('scroll', () => {
+      nav.classList.toggle('scrolled', window.scrollY > 40);
+    });
+
+    const reveals = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.05, rootMargin: '0px 0px -40px 0px' });
+    reveals.forEach(el => observer.observe(el));
+  </script>
+
+</body>
+</html>
