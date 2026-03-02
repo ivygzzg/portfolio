@@ -3,22 +3,23 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>UBI — Ivonne González</title>
+  <title>UBI — Case Study · Ivonne González</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500&display=swap" rel="stylesheet" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
     :root {
       --bg: #f8f7f5;
       --surface: #efefed;
+      --surface-dark: #e5e4e2;
       --border: rgba(0,0,0,0.08);
       --text: #111110;
       --muted: rgba(17,17,16,0.45);
+      --accent: #1a45d4;
+      --accent-light: #eef1fc;
       --sans: 'Geist', Helvetica, sans-serif;
     }
-
     html { scroll-behavior: smooth; }
     body {
       background: var(--bg);
@@ -58,10 +59,7 @@
       transition: border-color 0.4s;
     }
     nav.scrolled { border-color: var(--border); }
-    .nav-logo {
-      font-size: 1rem; font-weight: 400;
-      color: var(--text); text-decoration: none;
-    }
+    .nav-logo { font-size: 1rem; font-weight: 400; color: var(--text); text-decoration: none; }
     .nav-back {
       display: flex; align-items: center; gap: 8px;
       color: var(--muted); text-decoration: none;
@@ -70,253 +68,293 @@
       transition: color 0.2s;
     }
     .nav-back:hover { color: var(--text); }
+    .nav-back svg { transition: transform 0.2s; }
+    .nav-back:hover svg { transform: translateX(-3px); }
 
     /* Hero */
     #hero {
-      padding: 160px 48px 80px;
+      padding: 160px 48px 100px;
       border-bottom: 1px solid var(--border);
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 80px;
-      align-items: end;
     }
     .hero-label {
       font-size: 0.72rem;
       letter-spacing: 0.12em;
       text-transform: uppercase;
       color: var(--muted);
-      margin-bottom: 20px;
+      margin-bottom: 24px;
+      opacity: 0;
+      transform: translateY(12px);
+      animation: fadeUp 0.7s ease 0.2s forwards;
     }
     .hero-title {
-      font-size: clamp(2.8rem, 6vw, 5.5rem);
+      font-size: clamp(3rem, 7vw, 6.5rem);
       font-weight: 300;
-      line-height: 1.05;
+      line-height: 1.02;
       letter-spacing: -0.03em;
+      max-width: 900px;
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeUp 0.8s ease 0.4s forwards;
     }
     .hero-title em { font-style: normal; color: var(--muted); }
-    .hero-meta { display: flex; flex-direction: column; gap: 28px; padding-bottom: 8px; }
-    .meta-item { display: flex; flex-direction: column; gap: 4px; }
+    .hero-meta-row {
+      display: flex;
+      gap: 80px;
+      margin-top: 64px;
+      padding-top: 48px;
+      border-top: 1px solid var(--border);
+      opacity: 0;
+      transform: translateY(12px);
+      animation: fadeUp 0.7s ease 0.7s forwards;
+    }
+    .meta-item { display: flex; flex-direction: column; gap: 6px; }
     .meta-label {
       font-size: 0.68rem;
       letter-spacing: 0.1em;
       text-transform: uppercase;
       color: var(--muted);
     }
-    .meta-value { font-size: 0.95rem; font-weight: 400; }
-
-    /* Hero image */
-    .hero-image {
-      width: 100%;
-      aspect-ratio: 16/9;
-      object-fit: cover;
-      display: block;
-      border-radius: 8px;
-    }
-    .hero-image-wrap {
-      grid-column: span 2;
-      overflow: hidden;
-      border-radius: 8px;
-      margin-top: 40px;
-    }
-
-    /* Content */
-    .case-content {
-      max-width: 760px;
-      margin: 0 auto;
-      padding: 100px 48px;
-    }
+    .meta-value { font-size: 0.92rem; font-weight: 400; }
 
     /* Sections */
-    .cs-section { margin-bottom: 100px; }
-    .cs-label {
+    .cs-section {
+      padding: 100px 48px;
+      border-bottom: 1px solid var(--border);
+    }
+    .cs-section:last-child { border-bottom: none; }
+
+    .section-tag {
       font-size: 0.68rem;
       letter-spacing: 0.12em;
       text-transform: uppercase;
       color: var(--muted);
-      margin-bottom: 20px;
+      margin-bottom: 40px;
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 14px;
     }
-    .cs-label::before {
+    .section-tag::before {
       content: '';
-      width: 24px; height: 1px;
+      width: 24px;
+      height: 1px;
       background: var(--muted);
-    }
-    .cs-heading {
-      font-size: clamp(1.6rem, 3vw, 2.4rem);
-      font-weight: 300;
-      line-height: 1.2;
-      letter-spacing: -0.02em;
-      margin-bottom: 24px;
-    }
-    .cs-text {
-      font-size: 1rem;
-      color: var(--muted);
-      line-height: 1.85;
-      font-weight: 300;
-      margin-bottom: 20px;
-    }
-    .cs-text strong { color: var(--text); font-weight: 500; }
-
-    /* Highlight box */
-    .cs-highlight {
-      background: var(--surface);
-      border-radius: 8px;
-      padding: 32px 36px;
-      margin: 32px 0;
-      border-left: 3px solid var(--text);
-    }
-    .cs-highlight p {
-      font-size: 1.05rem;
-      font-weight: 300;
-      line-height: 1.7;
-      color: var(--text);
+      flex-shrink: 0;
     }
 
-    /* Stats row */
-    .cs-stats {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 2px;
-      margin: 40px 0;
-    }
-    .stat {
-      background: var(--surface);
-      padding: 28px 24px;
-      border-radius: 6px;
-      text-align: center;
-    }
-    .stat-number {
-      font-size: 2.5rem;
-      font-weight: 300;
-      letter-spacing: -0.04em;
-      line-height: 1;
-      margin-bottom: 8px;
-    }
-    .stat-label {
-      font-size: 0.75rem;
-      color: var(--muted);
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-    }
-
-    /* Image */
-    .cs-img {
-      width: 100%;
-      border-radius: 8px;
-      display: block;
-      margin: 40px 0;
-    }
-    .cs-img-caption {
-      font-size: 0.78rem;
-      color: var(--muted);
-      text-align: center;
-      margin-top: -28px;
-      margin-bottom: 40px;
-    }
-
-    /* Two column images */
-    .cs-img-grid {
+    /* Two-col layout */
+    .two-col {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 3px;
-      margin: 40px 0;
-    }
-    .cs-img-grid img {
-      width: 100%;
-      border-radius: 6px;
-      display: block;
-      aspect-ratio: 4/3;
-      object-fit: cover;
-    }
-
-    /* Process steps */
-    .cs-process {
-      display: flex;
-      flex-direction: column;
-      gap: 2px;
-      margin: 32px 0;
-    }
-    .process-step {
-      display: grid;
-      grid-template-columns: 48px 1fr;
-      gap: 20px;
-      padding: 24px;
-      background: var(--surface);
-      border-radius: 6px;
+      gap: 80px;
       align-items: start;
     }
-    .step-number {
-      font-size: 0.72rem;
-      letter-spacing: 0.1em;
-      color: var(--muted);
-      padding-top: 4px;
+    .two-col-wide {
+      display: grid;
+      grid-template-columns: 5fr 7fr;
+      gap: 80px;
+      align-items: start;
     }
-    .step-content h4 {
-      font-size: 1rem;
-      font-weight: 500;
-      margin-bottom: 6px;
-    }
-    .step-content p {
-      font-size: 0.88rem;
-      color: var(--muted);
+
+    /* Text styles */
+    .cs-h2 {
+      font-size: clamp(2rem, 4vw, 3.2rem);
       font-weight: 300;
-      line-height: 1.6;
+      line-height: 1.1;
+      letter-spacing: -0.025em;
+      margin-bottom: 28px;
     }
+    .cs-h2 em { font-style: normal; color: var(--muted); }
+    .cs-h3 {
+      font-size: 1.25rem;
+      font-weight: 500;
+      letter-spacing: -0.01em;
+      margin-bottom: 14px;
+    }
+    .cs-body {
+      color: var(--muted);
+      line-height: 1.8;
+      font-size: 0.95rem;
+      font-weight: 300;
+      margin-bottom: 20px;
+    }
+    .cs-body:last-child { margin-bottom: 0; }
+
+    /* Problem cards */
+    .problem-list { display: flex; flex-direction: column; gap: 12px; margin-top: 8px; }
+    .problem-card {
+      padding: 20px 24px;
+      background: var(--surface);
+      border-radius: 8px;
+      border-left: 3px solid var(--accent);
+    }
+    .problem-card p {
+      font-size: 0.9rem;
+      color: var(--text);
+      line-height: 1.6;
+      font-weight: 300;
+    }
+    .problem-card strong { font-weight: 500; display: block; margin-bottom: 4px; font-size: 0.82rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--accent); }
+
+    /* Image placeholder */
+    .img-placeholder {
+      background: var(--surface);
+      border-radius: 10px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      color: var(--muted);
+      font-size: 0.78rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      overflow: hidden;
+    }
+    .img-placeholder svg { opacity: 0.3; }
 
     /* Full-width image */
-    .cs-img-full {
-      width: calc(100% + 96px);
-      margin-left: -48px;
-      display: block;
-      margin-top: 60px;
-      margin-bottom: 60px;
-    }
-
-    /* Divider */
-    .cs-divider {
+    .img-full {
       width: 100%;
-      height: 1px;
-      background: var(--border);
-      margin: 80px 0;
+      border-radius: 10px;
+      background: var(--surface);
+      aspect-ratio: 16/9;
     }
+    .img-tall { aspect-ratio: 3/4; }
+    .img-phone { aspect-ratio: 9/16; max-width: 280px; }
+    .img-wide { aspect-ratio: 21/9; }
 
-    /* Next project */
-    .next-project {
-      border-top: 1px solid var(--border);
-      padding: 80px 48px;
+    /* Hero image strip */
+    .hero-visual {
+      width: 100%;
+      background: #0f1623;
+      border-radius: 12px;
+      aspect-ratio: 16/7;
+      margin-top: 64px;
       display: flex;
-      justify-content: space-between;
       align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      position: relative;
     }
-    .next-label {
+    .hero-visual-label {
+      position: absolute;
+      bottom: 24px;
+      left: 24px;
       font-size: 0.72rem;
-      letter-spacing: 0.12em;
+      letter-spacing: 0.1em;
       text-transform: uppercase;
-      color: var(--muted);
-      margin-bottom: 8px;
+      color: rgba(255,255,255,0.4);
     }
-    .next-title {
-      font-size: 2rem;
-      font-weight: 300;
-      letter-spacing: -0.02em;
+    .hero-visual-placeholder {
+      color: rgba(255,255,255,0.15);
+      font-size: 0.85rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
     }
-    .next-arrow {
-      font-size: 2rem;
-      color: var(--muted);
-      text-decoration: none;
-      transition: transform 0.3s, color 0.2s;
-    }
-    .next-arrow:hover { transform: translate(6px, -6px); color: var(--text); }
 
-    /* Reveal */
-    .reveal {
-      opacity: 0;
-      transform: translateY(28px);
-      transition: opacity 0.7s ease, transform 0.7s ease;
+    /* Quote highlight */
+    .cs-quote {
+      padding: 32px 40px;
+      background: var(--accent);
+      border-radius: 10px;
+      color: white;
     }
-    .reveal.visible { opacity: 1; transform: none; }
+    .cs-quote p {
+      font-size: 1rem;
+      line-height: 1.7;
+      font-weight: 300;
+    }
+    .cs-quote .q-label {
+      font-size: 0.68rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      opacity: 0.6;
+      margin-bottom: 12px;
+    }
+
+    /* Matrix / grid visual */
+    .matrix-placeholder {
+      width: 100%;
+      aspect-ratio: 4/3;
+      background: var(--surface);
+      border-radius: 10px;
+    }
+
+    /* Solutions list */
+    .solutions-list { display: flex; flex-direction: column; gap: 16px; }
+    .solution-item {
+      display: flex;
+      gap: 20px;
+      align-items: flex-start;
+      padding: 20px 24px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      transition: border-color 0.2s;
+    }
+    .solution-item:hover { border-color: var(--text); }
+    .solution-num {
+      font-size: 0.72rem;
+      color: var(--accent);
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      flex-shrink: 0;
+      padding-top: 2px;
+    }
+    .solution-item p { font-size: 0.9rem; color: var(--text); font-weight: 300; line-height: 1.6; }
+
+    /* Phones grid */
+    .phones-row {
+      display: flex;
+      gap: 16px;
+      overflow-x: auto;
+      padding-bottom: 8px;
+    }
+    .phone-card {
+      flex-shrink: 0;
+      width: 220px;
+    }
+    .phone-img {
+      width: 100%;
+      aspect-ratio: 9/16;
+      background: var(--surface);
+      border-radius: 20px;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .phone-label { font-size: 0.78rem; color: var(--muted); text-align: center; }
+
+    /* Design decisions */
+    .decision-block { margin-bottom: 80px; }
+    .decision-block:last-child { margin-bottom: 0; }
+    .decision-tag {
+      font-size: 0.68rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 12px;
+      font-weight: 500;
+    }
+
+    /* Three-phones */
+    .three-phones {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+    .three-phones .phone-frame {
+      background: var(--surface);
+      border-radius: 20px;
+      aspect-ratio: 9/16;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--muted);
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
 
     /* Footer */
     footer {
@@ -327,6 +365,7 @@
       align-items: center;
       color: var(--muted);
       font-size: 0.78rem;
+      font-weight: 300;
     }
     .social-links { display: flex; gap: 24px; }
     .social-links a {
@@ -336,280 +375,343 @@
     }
     .social-links a:hover { color: var(--text); }
 
+    /* Reveal */
+    .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.7s ease, transform 0.7s ease; }
+    .reveal.visible { opacity: 1; transform: none; }
+
+    @keyframes fadeUp { to { opacity: 1; transform: none; } }
+
+    /* Responsive */
     @media (max-width: 900px) {
       nav { padding: 20px 24px; }
-      #hero { grid-template-columns: 1fr; gap: 40px; padding: 120px 24px 60px; }
-      .hero-image-wrap { grid-column: span 1; }
-      .case-content { padding: 60px 24px; }
-      .cs-img-full { width: calc(100% + 48px); margin-left: -24px; }
-      .cs-stats { grid-template-columns: 1fr; }
-      .cs-img-grid { grid-template-columns: 1fr; }
-      .next-project { padding: 60px 24px; flex-direction: column; align-items: flex-start; gap: 20px; }
-      footer { padding: 24px; flex-direction: column; gap: 12px; }
+      #hero { padding: 120px 24px 60px; }
+      .cs-section { padding: 64px 24px; }
+      .hero-meta-row { flex-wrap: wrap; gap: 32px; }
+      .two-col, .two-col-wide { grid-template-columns: 1fr; gap: 40px; }
+      .three-phones { grid-template-columns: repeat(2, 1fr); }
+      footer { flex-direction: column; gap: 12px; text-align: center; }
     }
   </style>
 </head>
 <body>
-
   <div class="cursor" id="cursor"></div>
 
   <nav id="nav">
     <a href="index.html" class="nav-logo">Ivonne González</a>
-    <a href="index.html" class="nav-back">← All work</a>
+    <a href="index.html" class="nav-back">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M10 12L6 8l4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      Back to work
+    </a>
   </nav>
 
-  <!-- Hero -->
+  <!-- HERO -->
   <section id="hero">
-    <div>
-      <p class="hero-label">UBI · Mobile App · 2024</p>
-      <h1 class="hero-title">
-        Redesigning the app<br>
-        that <em>automates</em><br>
-        your car insurance
-      </h1>
-    </div>
-    <div class="hero-meta">
+    <p class="hero-label">Case Study · Mobile App · UX/UI</p>
+    <h1 class="hero-title">Redesigning the app that automates your car <em>insurance</em> experience</h1>
+    <div class="hero-meta-row">
       <div class="meta-item">
-        <span class="meta-label">My Role</span>
-        <span class="meta-value">Lead UX/UI Designer</span>
+        <span class="meta-label">Project</span>
+        <span class="meta-value">UBI App</span>
       </div>
       <div class="meta-item">
-        <span class="meta-label">Timeline</span>
-        <span class="meta-value">12 weeks · 2024</span>
+        <span class="meta-label">Role</span>
+        <span class="meta-value">UX/UI Designer</span>
       </div>
       <div class="meta-item">
-        <span class="meta-label">Platform</span>
-        <span class="meta-value">iOS & Android</span>
+        <span class="meta-label">Team</span>
+        <span class="meta-value">Engineer team · Scrum Master</span>
       </div>
       <div class="meta-item">
-        <span class="meta-label">Tools</span>
-        <span class="meta-value">Figma, Maze, Miro</span>
+        <span class="meta-label">Scope</span>
+        <span class="meta-value">4 weeks</span>
       </div>
     </div>
-    <div class="hero-image-wrap">
-      <img class="hero-image" src="https://picsum.photos/seed/ubi-hero/1400/788" alt="UBI App Hero" />
+    <div class="hero-visual reveal" style="transition-delay:0.9s">
+      <span class="hero-visual-placeholder">[ Hero image — App mockup ]</span>
+      <span class="hero-visual-label">UBI App · Final Design</span>
     </div>
   </section>
 
-  <!-- Case study content -->
-  <div class="case-content">
-
-    <!-- Overview -->
-    <div class="cs-section reveal">
-      <p class="cs-label">Overview</p>
-      <h2 class="cs-heading">A car insurance app stuck in 2018</h2>
-      <p class="cs-text">
-        UBI (Usage-Based Insurance) is a mobile app that tracks driving behavior and automatically adjusts car insurance premiums based on how you actually drive — not just your age and zip code. The concept is powerful, but the existing app was failing to communicate its value.
-      </p>
-      <p class="cs-text">
-        Users were confused about <strong>how the tracking worked, what data was being collected, and why their premium changed</strong> month to month. Trust was low, onboarding completion was under 40%, and the app had a 2.3 star rating on the App Store.
-      </p>
-
-      <div class="cs-highlight">
-        <p>"I have no idea why my premium went up this month. I thought I was driving the same as always." — User interview participant</p>
+  <!-- CONTEXT -->
+  <section class="cs-section">
+    <p class="section-tag">Context</p>
+    <div class="two-col-wide">
+      <div class="reveal">
+        <h2 class="cs-h2">What is <em>UBI?</em></h2>
+        <p class="cs-body">UBI is a groundbreaking app that, in combination with a cutting-edge ubiSensor, transforms any car into a smart vehicle. By providing drivers with actionable insights, the app empowers them to improve their driving habits, qualify for insurance discounts through safe driving, monitor their vehicle's health in real-time, and access roadside assistance during breakdowns.</p>
+        <p class="cs-body">My team and I were given the task of researching the main screens of the product, identifying pain points, and developing recommendations to revamp the app. We ended up redesigning the main screens, giving users confidence to navigate.</p>
       </div>
-    </div>
-
-    <!-- Stats -->
-    <div class="cs-section reveal">
-      <div class="cs-stats">
-        <div class="stat">
-          <div class="stat-number">38%</div>
-          <div class="stat-label">Onboarding completion rate</div>
-        </div>
-        <div class="stat">
-          <div class="stat-number">2.3★</div>
-          <div class="stat-label">App Store rating</div>
-        </div>
-        <div class="stat">
-          <div class="stat-number">67%</div>
-          <div class="stat-label">Users confused by premium changes</div>
+      <div class="reveal" style="transition-delay:0.15s">
+        <div class="cs-quote">
+          <p class="q-label">What is an ubiSensor?</p>
+          <p>A device that retrieves key data from your vehicle through a telematic tracking system. UBI app then displays the data in neat, sleek infographics to help users review their driving skills — and get additional benefits from their insurance.</p>
         </div>
       </div>
     </div>
+  </section>
 
-    <!-- Problem -->
-    <div class="cs-section reveal">
-      <p class="cs-label">Problem</p>
-      <h2 class="cs-heading">Opacity kills trust in insurance</h2>
-      <p class="cs-text">
-        Through user interviews and usability tests with 18 participants, three core problems emerged consistently:
-      </p>
-
-      <div class="cs-process">
-        <div class="process-step">
-          <span class="step-number">01</span>
-          <div class="step-content">
-            <h4>No transparency on data collection</h4>
-            <p>Users didn't know what the app was tracking — GPS, speed, phone usage — or when. This created anxiety and a sense of surveillance rather than benefit.</p>
+  <!-- PROBLEM -->
+  <section class="cs-section">
+    <p class="section-tag">Problem</p>
+    <div class="two-col">
+      <div class="reveal">
+        <h2 class="cs-h2">Drivers face challenges that <em>keep them</em> from a smooth experience</h2>
+      </div>
+      <div class="reveal" style="transition-delay:0.15s">
+        <div class="problem-list">
+          <div class="problem-card">
+            <strong>Accessing driving information</strong>
+            <p>Users struggle to find or understand essential driving data presented by the app.</p>
           </div>
-        </div>
-        <div class="process-step">
-          <span class="step-number">02</span>
-          <div class="step-content">
-            <h4>Incomprehensible scoring system</h4>
-            <p>The driving score was displayed as a single number with no context. Users couldn't understand what behaviors influenced it or how to improve.</p>
+          <div class="problem-card">
+            <strong>Lack of awareness of benefits</strong>
+            <p>Many users are unaware of the benefits their insurance provides due to complex or inaccessible information.</p>
           </div>
-        </div>
-        <div class="process-step">
-          <span class="step-number">03</span>
-          <div class="step-content">
-            <h4>Onboarding asked too much too fast</h4>
-            <p>The app requested location permissions, vehicle details, and payment info in the first 3 screens — before explaining any value. Drop-off was immediate.</p>
+          <div class="problem-card">
+            <strong>Unclear emergency assistance</strong>
+            <p>The process of requesting help during accidents or mishaps is not intuitive, leading to confusion and delays in critical situations.</p>
           </div>
         </div>
       </div>
     </div>
+  </section>
 
-    <!-- Process -->
-    <div class="cs-section reveal">
-      <p class="cs-label">Process</p>
-      <h2 class="cs-heading">Research → Define → Design → Test</h2>
-      <p class="cs-text">
-        I led the end-to-end design process across four phases over 12 weeks, working closely with the product manager, two engineers, and the data science team responsible for the scoring algorithm.
-      </p>
-
-      <img class="cs-img" src="https://picsum.photos/seed/ubi-process/760/400" alt="Design process diagram" />
-      <p class="cs-img-caption">Design process overview — from discovery to handoff</p>
-
-      <p class="cs-text">
-        The discovery phase included <strong>18 user interviews</strong>, a competitive analysis of 8 insurance apps (Metromile, Root, Allstate Drivewise), and a heuristic evaluation of the existing app. Key insight: every competing app treated transparency as a feature, not a given.
-      </p>
-
-      <p class="cs-text">
-        I synthesized findings into a <strong>Jobs to be Done framework</strong> — users weren't just looking to save money on insurance, they wanted to feel like the app was working <em>for</em> them, not monitoring them.
-      </p>
+  <!-- OBJECTIVE -->
+  <section class="cs-section">
+    <p class="section-tag">Objective</p>
+    <div class="reveal">
+      <h2 class="cs-h2" style="max-width: 820px;">The primary objective was to redesign the main screen, improve navigation, and introduce <em>new functions</em> to improve the user experience</h2>
     </div>
-
-    <!-- Solution -->
-    <div class="cs-section reveal">
-      <p class="cs-label">Solution</p>
-      <h2 class="cs-heading">Transparency as the core design principle</h2>
-      <p class="cs-text">
-        Every design decision was filtered through one question: <strong>does this help users understand what's happening and why?</strong> This shaped three major design changes.
-      </p>
-
-      <div class="cs-img-grid">
-        <img src="https://picsum.photos/seed/ubi-s1/600/450" alt="New onboarding screens" />
-        <img src="https://picsum.photos/seed/ubi-s2/600/450" alt="Scoring breakdown screen" />
+    <div class="two-col" style="margin-top: 48px;">
+      <div class="reveal" style="transition-delay:0.1s">
+        <p class="cs-body">We focused on maintaining a solid product design while facilitating immediate access to information — making it effortless for users to view their data at a glance.</p>
       </div>
-
-      <h3 style="font-size:1.2rem; font-weight:500; margin-bottom:12px; margin-top:8px;">Redesigned onboarding — value first, permissions later</h3>
-      <p class="cs-text">
-        The new onboarding shows users exactly how much they could save before asking for anything. Permissions are requested contextually — location access is asked only when the first trip is about to start, with a clear explanation of why it's needed and what it enables.
-      </p>
-
-      <img class="cs-img" src="https://picsum.photos/seed/ubi-onboarding/760/500" alt="Onboarding flow redesign" />
-      <p class="cs-img-caption">Before vs. After — onboarding completion improved from 38% to 74%</p>
-
-      <h3 style="font-size:1.2rem; font-weight:500; margin-bottom:12px; margin-top:32px;">Driving score breakdown — from black box to glass box</h3>
-      <p class="cs-text">
-        The score is now broken into four visible factors: <strong>speed, braking, phone usage, and time of day</strong>. Each factor shows your trend over the last 30 days and offers one actionable tip. Users can finally see exactly what moved their score.
-      </p>
-
-      <div class="cs-img-grid">
-        <img src="https://picsum.photos/seed/ubi-score1/600/450" alt="Score breakdown screen" />
-        <img src="https://picsum.photos/seed/ubi-score2/600/450" alt="Score history chart" />
+      <div class="reveal" style="transition-delay:0.2s">
+        <p class="cs-body">The redesign maintained brand consistency while significantly improving usability, navigation clarity, and awareness of insurance benefits.</p>
       </div>
-
-      <h3 style="font-size:1.2rem; font-weight:500; margin-bottom:12px; margin-top:32px;">Trip summary — a receipt for every drive</h3>
-      <p class="cs-text">
-        Every trip now gets a summary screen that shows the route, score, and key moments (hard braking events, phone usage). This turned a source of anxiety into a moment of engagement — users started checking it voluntarily.
-      </p>
     </div>
+  </section>
 
-    <div class="cs-divider"></div>
-
-    <!-- Results -->
-    <div class="cs-section reveal">
-      <p class="cs-label">Results</p>
-      <h2 class="cs-heading">Measurable impact after launch</h2>
-      <p class="cs-text">
-        The redesigned app launched to a beta group of 2,000 users before full rollout. Results after 8 weeks of beta:
-      </p>
-
-      <div class="cs-stats">
-        <div class="stat">
-          <div class="stat-number">74%</div>
-          <div class="stat-label">Onboarding completion (was 38%)</div>
+  <!-- RESEARCH -->
+  <section class="cs-section">
+    <p class="section-tag">Research &amp; Insights</p>
+    <div class="two-col-wide" style="margin-bottom: 64px;">
+      <div class="reveal">
+        <h2 class="cs-h2">Understanding the <em>weaknesses</em> of the former interface</h2>
+        <p class="cs-body">In the initial research phase, we analyzed the existing app and obtained all the general documentation of the project. We spent time with key stakeholders to fully comprehend their expectations, needs, and vision of the product.</p>
+        <p class="cs-body">The central research question became:</p>
+      </div>
+      <div class="reveal" style="transition-delay:0.15s">
+        <div class="cs-quote">
+          <p class="q-label">Research Question</p>
+          <p>How can we promote better driving habits through the app?</p>
         </div>
-        <div class="stat">
-          <div class="stat-number">4.6★</div>
-          <div class="stat-label">App Store rating (was 2.3★)</div>
-        </div>
-        <div class="stat">
-          <div class="stat-number">+31%</div>
-          <div class="stat-label">Weekly active users</div>
+        <div style="margin-top: 20px; padding: 20px 24px; background: var(--surface); border-radius: 8px;">
+          <p style="font-size: 0.88rem; color: var(--muted); line-height: 1.7; font-weight: 300;">By detecting drivers who use the app and those already registered, I was able to find weak points and understand the biggest problems users faced.</p>
         </div>
       </div>
+    </div>
 
-      <div class="cs-highlight">
-        <p>"Now I actually understand why my insurance is the price it is. I feel like the app is finally on my side." — Beta tester feedback</p>
+    <div class="reveal">
+      <p class="cs-body" style="margin-bottom: 24px;">We mapped out findings in a simple matrix to highlight ongoing issues vs. actual behavior — a quick way to generate ideas and potential solutions for the ideation phase.</p>
+      <div class="img-placeholder img-full" style="aspect-ratio: 16/8;">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="8" height="8" rx="1" stroke="currentColor" stroke-width="1.5"/><rect x="13" y="3" width="8" height="8" rx="1" stroke="currentColor" stroke-width="1.5"/><rect x="3" y="13" width="8" height="8" rx="1" stroke="currentColor" stroke-width="1.5"/><rect x="13" y="13" width="8" height="8" rx="1" stroke="currentColor" stroke-width="1.5"/></svg>
+        <span>Behavior Matrix — Miro board</span>
       </div>
+    </div>
+  </section>
 
-      <p class="cs-text">
-        The trip summary feature became unexpectedly popular — 60% of active users checked their trip summary after every drive, a behavior that wasn't anticipated and that significantly increased session frequency.
-      </p>
+  <!-- SOLUTION -->
+  <section class="cs-section">
+    <p class="section-tag">Solution &amp; User Flow</p>
+    <div class="two-col-wide" style="margin-bottom: 64px;">
+      <div class="reveal">
+        <h2 class="cs-h2">Working closely with the team to <em>define</em> the solution</h2>
+        <p class="cs-body">Collecting insights from initial research findings, we identified four core solution areas.</p>
+      </div>
+      <div class="reveal" style="transition-delay:0.15s">
+        <div class="solutions-list">
+          <div class="solution-item">
+            <span class="solution-num">01</span>
+            <p>Let the user know all the details of every benefit their insurance provides.</p>
+          </div>
+          <div class="solution-item">
+            <span class="solution-num">02</span>
+            <p>Improve the request for assistance directly through a shortcut in case of any emergency.</p>
+          </div>
+          <div class="solution-item">
+            <span class="solution-num">03</span>
+            <p>Re-order sections for a more intuitive navigation flow.</p>
+          </div>
+          <div class="solution-item">
+            <span class="solution-num">04</span>
+            <p>Improve the score visualization based on their last trips of the vehicle.</p>
+          </div>
+        </div>
+      </div>
     </div>
 
-    <!-- Learnings -->
-    <div class="cs-section reveal">
-      <p class="cs-label">Learnings</p>
-      <h2 class="cs-heading">What I'd do differently</h2>
-      <p class="cs-text">
-        In hindsight, I would have involved the data science team earlier in the process. The scoring algorithm had constraints I only discovered during handoff, which required some late-stage design adjustments. Closer collaboration from week one would have saved time and produced a more technically feasible first proposal.
-      </p>
-      <p class="cs-text">
-        I also underestimated how much users valued the <strong>privacy control settings</strong> — it was one of the most-praised features in feedback, but it was designed as a secondary screen. In the next iteration, I'd give it more prominence in the main navigation.
-      </p>
+    <div class="reveal">
+      <p class="cs-body" style="margin-bottom: 24px;">Information architecture mapping out the full app structure — from Home through Trip detail, Benefits, and bottom navigation.</p>
+      <div class="img-placeholder img-full" style="aspect-ratio: 16/8;">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none"><path d="M12 3v4M9 7h6M6 11H4a1 1 0 00-1 1v2a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 00-1-1zM14 11h-2M20 11h-2a1 1 0 00-1 1v2a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 00-1-1zM12 7v4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        <span>Information Architecture</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- IDEATION -->
+  <section class="cs-section">
+    <p class="section-tag">Ideation</p>
+    <div class="two-col-wide">
+      <div class="reveal">
+        <h2 class="cs-h2">First <em>iterations</em> — wireframes &amp; sketches</h2>
+        <p class="cs-body">We elaborated the first screens improving the user flow with initial wireframes focused on establishing layout, navigation, and core functions.</p>
+        <p class="cs-body">The driving score component — a key UX element — was sketched first to define how it would communicate performance based on the last two weeks of driving data.</p>
+      </div>
+      <div class="reveal" style="transition-delay:0.15s">
+        <div class="img-placeholder img-full" style="aspect-ratio: 4/3;">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none"><path d="M12 20V10M7 20v-5M17 20v-8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M5 10a7 7 0 0114 0" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+          <span>Score sketch — Data Driving component</span>
+        </div>
+      </div>
     </div>
 
-  </div>
-
-  <!-- Next project -->
-  <div class="next-project">
-    <div>
-      <p class="next-label">Next project</p>
-      <h3 class="next-title">Essity →</h3>
+    <div class="reveal" style="margin-top: 48px;">
+      <p class="cs-body" style="margin-bottom: 24px;">Full wireframe flow covering Home, Map Detail, Benefits, Profile, and secondary screens (Car, Insurance, Notifications).</p>
+      <div class="img-placeholder img-full" style="aspect-ratio: 21/9;">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none"><rect x="2" y="4" width="6" height="10" rx="1" stroke="currentColor" stroke-width="1.5"/><rect x="10" y="4" width="6" height="10" rx="1" stroke="currentColor" stroke-width="1.5"/><rect x="18" y="4" width="4" height="10" rx="1" stroke="currentColor" stroke-width="1.5"/></svg>
+        <span>Wireframe flow</span>
+      </div>
     </div>
-    <a href="essity.html" class="next-arrow">↗</a>
-  </div>
+  </section>
+
+  <!-- DESIGN EXECUTION -->
+  <section class="cs-section">
+    <p class="section-tag">Design Execution</p>
+    <div class="reveal" style="margin-bottom: 64px;">
+      <h2 class="cs-h2" style="max-width: 760px;">Iterating on layouts, icons, and visual elements to reach <em>high-fidelity</em></h2>
+      <p class="cs-body" style="max-width: 600px; margin-top: 16px;">In this phase we experimented extensively with layouts, icons, background colors, and shadows to achieve the desired outcome — then moved into high-fidelity prototyping.</p>
+    </div>
+
+    <!-- Home screen decision -->
+    <div class="decision-block">
+      <div class="two-col-wide reveal">
+        <div>
+          <p class="decision-tag">Home Screen</p>
+          <h3 class="cs-h3">Dashboard — the control center</h3>
+          <p class="cs-body">On the main screen, we reflected a driving score of the last two weeks based on the driver's trips. We added the last trip tab and a section with benefits.</p>
+          <p class="cs-body">A shortcut to call their insurance was added as a sticky button. The navigation tab was rearranged to <em>My Car, Insurance, and Notifications</em> — grouping all necessary information logically.</p>
+          <p class="cs-body">At the top, users can access their account profile and a button for roadside assistance — immediately accessible in any emergency.</p>
+        </div>
+        <div class="img-placeholder img-tall" style="max-width: 320px; margin: 0 auto;">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none"><rect x="5" y="2" width="14" height="20" rx="2" stroke="currentColor" stroke-width="1.5"/><circle cx="12" cy="18" r="1" fill="currentColor" opacity="0.4"/></svg>
+          <span>Home screen — Hi-fi</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Trip detail -->
+    <div class="decision-block">
+      <div class="two-col-wide reveal">
+        <div>
+          <p class="decision-tag">Trip Detail</p>
+          <h3 class="cs-h3">Accurate tracking, immediate clarity</h3>
+          <p class="cs-body">Users have access to detailed data on their most recent trip via a shortcut on the home screen. UBI shows drivers an accurate tracking map of their travel, as well as the score they obtained based on acceleration, braking, speed, and driving behavior.</p>
+        </div>
+        <div style="display: flex; gap: 12px;">
+          <div class="img-placeholder img-tall" style="flex: 1; min-height: 320px;">
+            <span style="font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.06em;">Trip list</span>
+          </div>
+          <div class="img-placeholder img-tall" style="flex: 1; min-height: 320px;">
+            <span style="font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.06em;">Trip detail + map</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Benefits -->
+    <div class="decision-block">
+      <div class="two-col-wide reveal">
+        <div>
+          <p class="decision-tag">Benefits</p>
+          <h3 class="cs-h3">Making insurance benefits visible</h3>
+          <p class="cs-body">Insured driver's benefits are displayed directly on the home screen — a somewhat obvious solution that dramatically improves ease of use. Now UBI users can easily acknowledge the benefits of good driving.</p>
+          <p class="cs-body">Each benefit has a dedicated detail screen with full description and required information, plus direct Chat and Call actions.</p>
+        </div>
+        <div style="display: flex; gap: 12px;">
+          <div class="img-placeholder img-tall" style="flex: 1; min-height: 320px;">
+            <span style="font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.06em;">Benefits grid</span>
+          </div>
+          <div class="img-placeholder img-tall" style="flex: 1; min-height: 320px;">
+            <span style="font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.06em;">Benefit detail</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Navigation -->
+    <div class="decision-block">
+      <p class="decision-tag reveal">Navigation</p>
+      <h3 class="cs-h3 reveal">Restructured bottom navigation</h3>
+      <p class="cs-body reveal" style="max-width: 560px; margin-bottom: 32px;">We categorized important sections to access specific and punctual information quickly. The bottom nav was restructured into My Car, Insurance (Seguro), and Notifications — each grouping relevant data together.</p>
+      <div class="three-phones reveal" style="transition-delay:0.1s">
+        <div class="phone-frame">Mi Auto</div>
+        <div class="phone-frame">Seguro</div>
+        <div class="phone-frame">Notificaciones</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER NAV -->
+  <section class="cs-section" style="text-align: center; padding: 80px 48px;">
+    <p class="cs-body reveal" style="margin-bottom: 32px;">Next case study</p>
+    <a href="index.html#work" class="reveal" style="display: inline-flex; align-items: center; gap: 10px; text-decoration: none; color: var(--text); font-size: 1.4rem; font-weight: 300; letter-spacing: -0.02em; transition: gap 0.2s;" onmouseenter="this.style.gap='18px'" onmouseleave="this.style.gap='10px'">
+      View all projects <span>↗</span>
+    </a>
+  </section>
 
   <footer>
     <span>© 2025 Ivonne González García</span>
     <div class="social-links">
-      <a href="mailto:ivygzzg@gmail.com">ivygzzg@gmail.com</a>
+      <a href="#" id="footer-email">Email</a>
       <a href="#">LinkedIn</a>
     </div>
   </footer>
 
   <script>
-    const cursor = document.getElementById('cursor');
-    document.addEventListener('mousemove', e => {
+    (function(){
+      var u = 'ivygzzg'; var d = 'gmail.com';
+      var e = u + '@' + d;
+      var fe = document.getElementById('footer-email');
+      if (fe) { fe.textContent = e; fe.href = 'mailto:' + e; }
+    })();
+
+    var cursor = document.getElementById('cursor');
+    document.addEventListener('mousemove', function(e){
       cursor.style.left = e.clientX + 'px';
       cursor.style.top = e.clientY + 'px';
     });
-    document.querySelectorAll('a, button').forEach(el => {
-      el.addEventListener('mouseenter', () => cursor.classList.add('hovered'));
-      el.addEventListener('mouseleave', () => cursor.classList.remove('hovered'));
+    document.querySelectorAll('a, button, .solution-item, .problem-card, .skill-item').forEach(function(el){
+      el.addEventListener('mouseenter', function(){ cursor.classList.add('hovered'); });
+      el.addEventListener('mouseleave', function(){ cursor.classList.remove('hovered'); });
     });
 
-    const nav = document.getElementById('nav');
-    window.addEventListener('scroll', () => {
+    var nav = document.getElementById('nav');
+    window.addEventListener('scroll', function(){
       nav.classList.toggle('scrolled', window.scrollY > 40);
     });
 
-    const reveals = document.querySelectorAll('.reveal');
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
+    var reveals = document.querySelectorAll('.reveal');
+    var observer = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if(entry.isIntersecting){
           entry.target.classList.add('visible');
           observer.unobserve(entry.target);
         }
       });
     }, { threshold: 0.05, rootMargin: '0px 0px -40px 0px' });
-    reveals.forEach(el => observer.observe(el));
+    reveals.forEach(function(el){ observer.observe(el); });
   </script>
-
 </body>
 </html>
