@@ -38,7 +38,24 @@
     .hero-scroll { display: flex; align-items: center; gap: 12px; color: var(--muted); font-size: 0.78rem; letter-spacing: 0.08em; text-transform: uppercase; }
     .scroll-line { width: 48px; height: 1px; background: var(--border); position: relative; overflow: hidden; }
     .scroll-line::after { content: ''; position: absolute; inset: 0; background: var(--text); transform: translateX(-100%); animation: lineSlide 2s ease-in-out 1.5s infinite; }
-    #work { border-top: 1px solid var(--border); background: linear-gradient(to bottom, var(--bg) 0%, var(--bg) 60%, #111110 100%); }
+    #work { border-top: 1px solid var(--border); }
+
+    /* Dark section — everything below the cards */
+    .dark-section { background: #111110; }
+    .dark-section #about { border-top: 1px solid rgba(255,255,255,0.08); }
+    .dark-section .about-heading { color: #f8f7f5; }
+    .dark-section .about-heading em { color: rgba(255,255,255,0.3); }
+    .dark-section .about-text { color: rgba(255,255,255,0.45); }
+    .dark-section .skill-item { border-color: rgba(255,255,255,0.1); color: rgba(255,255,255,0.45); }
+    .dark-section .skill-item:hover { border-color: rgba(255,255,255,0.6); color: #fff; }
+    .dark-section #contact { border-top: 1px solid rgba(255,255,255,0.08); }
+    .dark-section .contact-title { color: #f8f7f5; }
+    .dark-section .contact-title em { color: rgba(255,255,255,0.3); }
+    .dark-section .btn-secondary { color: #f8f7f5; border-color: rgba(255,255,255,0.15); }
+    .dark-section .btn-secondary:hover { border-color: rgba(255,255,255,0.5); }
+    .dark-section footer { border-top-color: rgba(255,255,255,0.08); color: rgba(255,255,255,0.3); }
+    .dark-section .social-links a { color: rgba(255,255,255,0.3); }
+    .dark-section .social-links a:hover { color: #fff; }
     .section-label { font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); margin-bottom: 64px; display: flex; align-items: center; gap: 16px; padding: 120px 48px 0; }
     .section-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
     .projects-featured { display: flex; flex-direction: column; gap: 3px; padding: 0 48px; }
@@ -264,6 +281,8 @@
     </div>
 
   </section>
+
+  <div class="dark-section">
   <section id="about">
     <div class="reveal">
       <h2 class="about-heading">Design as a<br><em>language</em><br>for people</h2>
@@ -295,6 +314,7 @@
       <a href="#">LinkedIn</a>
     </div>
   </footer>
+  </div>
   <script>
     (function(){
       var u = 'ivygzzg';
