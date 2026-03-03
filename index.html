@@ -15,7 +15,12 @@
       --sans: 'Geist', Helvetica, sans-serif;
     }
     html { scroll-behavior: smooth; }
-    body { background: var(--bg); color: var(--text); font-family: var(--sans); font-size: 16px; line-height: 1.6; overflow-x: hidden; cursor: none; }
+    body { background: var(--bg); color: var(--text); font-family: var(--sans); font-size: 16px; line-height: 1.6; overflow-x: hidden; cursor: none; transition: background 0.8s ease, color 0.8s ease; }
+    body.dark-mode { background: #111110; color: #f8f7f5; }
+    body.dark-mode nav { --border: rgba(255,255,255,0.08); }
+    body.dark-mode .nav-logo { color: #f8f7f5; }
+    body.dark-mode .nav-links a { color: rgba(255,255,255,0.45); }
+    body.dark-mode .nav-links a:hover { color: #f8f7f5; }
     .cursor { width: 10px; height: 10px; background: var(--text); border-radius: 50%; position: fixed; top: 0; left: 0; pointer-events: none; z-index: 9999; transform: translate(-50%,-50%); transition: width 0.3s, height 0.3s; mix-blend-mode: multiply; }
     .cursor.hovered { width: 40px; height: 40px; }
     nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; justify-content: space-between; align-items: center; padding: 28px 48px; backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-bottom: 1px solid transparent; transition: border-color 0.4s; }
@@ -312,6 +317,30 @@
     window.addEventListener('scroll', function(){
       nav.classList.toggle('scrolled', window.scrollY > 40);
     });
+
+    // Scroll-triggered dark mode
+    var darkSection = document.querySelector('.projects-featured');
+    var lightSection = document.getElementById('about');
+    var bodyEl = document.body;
+
+    var darkObserver = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          bodyEl.classList.add('dark-mode');
+        }
+      });
+    }, { threshold: 0.15 });
+
+    var lightObserver = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          bodyEl.classList.remove('dark-mode');
+        }
+      });
+    }, { threshold: 0.1 });
+
+    if (darkSection) darkObserver.observe(darkSection);
+    if (lightSection) lightObserver.observe(lightSection);
     var reveals = document.querySelectorAll('.reveal');
     var observer = new IntersectionObserver(function(entries){
       entries.forEach(function(entry){
