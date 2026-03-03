@@ -154,6 +154,12 @@
       #contact { padding-left: 24px; padding-right: 24px; }
       footer { flex-direction: column; gap: 12px; text-align: center; padding: 28px 24px; }
     }
+
+    .feat-card--phone { background: #1a0533; }
+    .feat-card--phone:hover { background: #1a0533; }
+    .feat-card--phone .feat-visual { background: #1a0533; padding: 0; }
+    .feat-card--phone .feat-img { filter: brightness(1) !important; }
+    .feat-card--phone:hover .feat-img { filter: brightness(0.85) !important; transform: scale(1.04); }
   </style>
 </head>
 <body>
@@ -214,7 +220,7 @@
         </div>
       </a>
 
-      <a class="feat-card" href="lealtad.html">
+      <a class="feat-card feat-card--phone" href="lealtad.html">
         <div class="feat-info">
           <div class="feat-info-top">
             <span class="feat-type">UX Design · Fintech</span>
@@ -227,7 +233,7 @@
           </div>
         </div>
         <div class="feat-visual">
-          <img class="feat-phone-main" src="cupones.png" alt="Cupones Lealtad" style="height:420px;width:auto;object-fit:cover;object-position:center top;" />
+          <img class="feat-img" src="cupones.png" alt="Cupones Lealtad" style="width:100%;height:100%;object-fit:cover;object-position:center top;filter:brightness(1);" />
         </div>
       </a>
 
