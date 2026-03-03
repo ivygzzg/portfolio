@@ -75,35 +75,24 @@
     .feat-link .feat-arrow { display: inline-flex; align-items: center; justify-content: center; width: 28px; height: 28px; background: rgba(0,0,0,0.08); border-radius: 50%; font-size: 0.9rem; transition: background 0.4s ease; }
     .feat-card:hover .feat-link { gap: 14px; color: #fff; }
     .feat-card:hover .feat-link .feat-arrow { background: rgba(255,255,255,0.22); }
-    .more-projects { padding: 80px 48px; border-top: 1px solid rgba(255,255,255,0.06); background: #111110; position: relative; }
+    .more-projects { padding: 80px 48px; border-top: 1px solid rgba(255,255,255,0.06); background: #111110; position: relative; display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: start; }
+    .more-left { }
     .more-label { font-size: 0.68rem; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(255,255,255,0.25); margin-bottom: 40px; }
-    .more-list { display: flex; flex-direction: column; position: relative; }
-    .more-item { display: flex; justify-content: space-between; align-items: center; padding: 22px 0; border-top: 1px solid rgba(255,255,255,0.06); cursor: none; text-decoration: none; color: inherit; position: relative; }
+    .more-list { display: flex; flex-direction: column; }
+    .more-item { display: flex; align-items: center; gap: 0; padding: 20px 0; border-top: 1px solid rgba(255,255,255,0.06); cursor: none; text-decoration: none; color: inherit; overflow: hidden; }
     .more-item:last-child { border-bottom: 1px solid rgba(255,255,255,0.06); }
-    .more-item-left { display: flex; align-items: center; gap: 24px; }
-    .more-num { font-size: 0.68rem; color: rgba(255,255,255,0.2); width: 28px; }
-    .more-name { font-size: clamp(1.1rem, 2vw, 1.5rem); font-weight: 300; color: rgba(255,255,255,0.75); letter-spacing: -0.015em; transition: color 0.2s; }
+    .more-arrow-icon { font-size: 1.1rem; color: rgba(255,255,255,0.6); transform: translateX(-20px); opacity: 0; transition: transform 0.3s ease, opacity 0.3s ease; margin-right: 0; flex-shrink: 0; width: 0; overflow: visible; }
+    .more-item:hover .more-arrow-icon { transform: translateX(0); opacity: 1; width: auto; margin-right: 12px; }
+    .more-item-left { display: flex; align-items: center; gap: 20px; }
+    .more-num { font-size: 0.68rem; color: rgba(255,255,255,0.2); width: 28px; flex-shrink: 0; transition: opacity 0.3s; }
+    .more-item:hover .more-num { opacity: 0; }
+    .more-name { font-size: clamp(1.1rem, 2vw, 1.5rem); font-weight: 300; color: rgba(255,255,255,0.6); letter-spacing: -0.015em; transition: color 0.2s; }
     .more-item:hover .more-name { color: #fff; }
-    .more-tags { font-size: 0.75rem; color: rgba(255,255,255,0.25); text-transform: uppercase; letter-spacing: 0.06em; }
-    .more-arrow { font-size: 1rem; color: rgba(255,255,255,0.2); transition: transform 0.3s, color 0.2s; flex-shrink: 0; }
-    .more-item:hover .more-arrow { transform: translate(4px,-4px); color: rgba(255,255,255,0.7); }
 
-    /* Hover image preview */
-    .more-preview {
-      position: fixed;
-      width: 280px;
-      height: 340px;
-      border-radius: 16px;
-      overflow: hidden;
-      pointer-events: none;
-      opacity: 0;
-      transform: scale(0.92) translateY(8px);
-      transition: opacity 0.3s ease, transform 0.3s ease;
-      z-index: 200;
-      box-shadow: 0 24px 60px rgba(0,0,0,0.6);
-    }
-    .more-preview img { width: 100%; height: 100%; object-fit: cover; display: block; }
-    .more-preview.visible { opacity: 1; transform: scale(1) translateY(0); }
+    /* Right image panel */
+    .more-right { position: sticky; top: 120px; height: 400px; border-radius: 16px; overflow: hidden; background: rgba(255,255,255,0.04); }
+    .more-right-img { width: 100%; height: 100%; object-fit: cover; display: block; opacity: 0; transition: opacity 0.4s ease; }
+    .more-right-img.visible { opacity: 1; }
     #about { padding: 120px 48px; border-top: 1px solid var(--border); display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: start; }
     .about-heading { font-size: clamp(2.5rem, 5vw, 4rem); font-weight: 300; line-height: 1.1; letter-spacing: -0.025em; }
     .about-heading em { font-style: normal; color: var(--muted); }
@@ -224,54 +213,49 @@
 
     <!-- More projects — list only -->
     <div class="more-projects">
-      <p class="more-label">More projects</p>
-      <div class="more-list">
-        <a class="more-item" href="#" data-preview="https://picsum.photos/seed/cybersource/600/750">
-          <div class="more-item-left">
-            <span class="more-num">04</span>
-            <span class="more-name">Cybersource</span>
-          </div>
-          <span class="more-tags">Security · UX Strategy</span>
-          <span class="more-arrow">↗</span>
-        </a>
-        <a class="more-item" href="#" data-preview="https://picsum.photos/seed/splitpay/600/750">
-          <div class="more-item-left">
-            <span class="more-num">05</span>
-            <span class="more-name">Splitpay</span>
-          </div>
-          <span class="more-tags">Fintech · Mobile</span>
-          <span class="more-arrow">↗</span>
-        </a>
-        <a class="more-item" href="#" data-preview="https://picsum.photos/seed/roles/600/750">
-          <div class="more-item-left">
-            <span class="more-num">06</span>
-            <span class="more-name">Roles y Permisos</span>
-          </div>
-          <span class="more-tags">Dashboard · Enterprise UX</span>
-          <span class="more-arrow">↗</span>
-        </a>
-        <a class="more-item" href="#" data-preview="https://picsum.photos/seed/banregio/600/750">
-          <div class="more-item-left">
-            <span class="more-num">07</span>
-            <span class="more-name">Banregio</span>
-          </div>
-          <span class="more-tags">Fintech · Web App</span>
-          <span class="more-arrow">↗</span>
-        </a>
-        <a class="more-item" href="#" data-preview="https://picsum.photos/seed/restaurant/600/750">
-          <div class="more-item-left">
-            <span class="more-num">08</span>
-            <span class="more-name">Restaurant to go</span>
-          </div>
-          <span class="more-tags">Mobile · UX/UI</span>
-          <span class="more-arrow">↗</span>
-        </a>
+      <div class="more-left">
+        <p class="more-label">More projects</p>
+        <div class="more-list">
+          <a class="more-item" href="#" data-preview="https://picsum.photos/seed/cybersource/600/750">
+            <span class="more-arrow-icon">↗</span>
+            <div class="more-item-left">
+              <span class="more-num">04</span>
+              <span class="more-name">Cybersource</span>
+            </div>
+          </a>
+          <a class="more-item" href="#" data-preview="https://picsum.photos/seed/splitpay/600/750">
+            <span class="more-arrow-icon">↗</span>
+            <div class="more-item-left">
+              <span class="more-num">05</span>
+              <span class="more-name">Splitpay</span>
+            </div>
+          </a>
+          <a class="more-item" href="#" data-preview="https://picsum.photos/seed/roles/600/750">
+            <span class="more-arrow-icon">↗</span>
+            <div class="more-item-left">
+              <span class="more-num">06</span>
+              <span class="more-name">Roles y Permisos</span>
+            </div>
+          </a>
+          <a class="more-item" href="#" data-preview="https://picsum.photos/seed/banregio/600/750">
+            <span class="more-arrow-icon">↗</span>
+            <div class="more-item-left">
+              <span class="more-num">07</span>
+              <span class="more-name">Banregio</span>
+            </div>
+          </a>
+          <a class="more-item" href="#" data-preview="https://picsum.photos/seed/restaurant/600/750">
+            <span class="more-arrow-icon">↗</span>
+            <div class="more-item-left">
+              <span class="more-num">08</span>
+              <span class="more-name">Restaurant to go</span>
+            </div>
+          </a>
+        </div>
       </div>
-    </div>
-
-    <!-- Hover preview image -->
-    <div class="more-preview" id="morePreview">
-      <img id="morePreviewImg" src="" alt="" />
+      <div class="more-right">
+        <img class="more-right-img" id="moreRightImg" src="" alt="" />
+      </div>
     </div>
 
   </section>
@@ -339,21 +323,17 @@
     }, { threshold: 0.05, rootMargin: '0px 0px -40px 0px' });
     reveals.forEach(function(el){ observer.observe(el); });
 
-    // More projects hover preview
-    var preview = document.getElementById('morePreview');
-    var previewImg = document.getElementById('morePreviewImg');
+    // More projects hover — image panel right
+    var rightImg = document.getElementById('moreRightImg');
     document.querySelectorAll('.more-item[data-preview]').forEach(function(item) {
       item.addEventListener('mouseenter', function() {
-        previewImg.src = this.dataset.preview;
-        preview.classList.add('visible');
+        var src = this.dataset.preview;
+        if (rightImg.src !== src) { rightImg.src = src; }
+        rightImg.classList.add('visible');
       });
       item.addEventListener('mouseleave', function() {
-        preview.classList.remove('visible');
+        rightImg.classList.remove('visible');
       });
-    });
-    document.addEventListener('mousemove', function(e) {
-      preview.style.left = (e.clientX + 24) + 'px';
-      preview.style.top = (e.clientY - 170) + 'px';
     });
   </script>
 </body>
