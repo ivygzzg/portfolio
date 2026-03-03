@@ -33,21 +33,56 @@
     .hero-scroll { display: flex; align-items: center; gap: 12px; color: var(--muted); font-size: 0.78rem; letter-spacing: 0.08em; text-transform: uppercase; }
     .scroll-line { width: 48px; height: 1px; background: var(--border); position: relative; overflow: hidden; }
     .scroll-line::after { content: ''; position: absolute; inset: 0; background: var(--text); transform: translateX(-100%); animation: lineSlide 2s ease-in-out 1.5s infinite; }
-    #work { padding: 120px 48px; border-top: 1px solid var(--border); }
-    .section-label { font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); margin-bottom: 64px; display: flex; align-items: center; gap: 16px; }
+    #work { border-top: 1px solid var(--border); }
+    .section-label { font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); margin-bottom: 64px; display: flex; align-items: center; gap: 16px; padding: 120px 48px 0; }
     .section-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
-    .projects-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; }
-    .project-card { background: var(--surface); border-radius: 6px; overflow: hidden; cursor: none; }
-    .project-img-wrap { overflow: hidden; width: 100%; }
-    .project-img { width: 100%; aspect-ratio: 4/3; object-fit: cover; display: block; transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94); }
-    .project-card:hover .project-img { transform: scale(1.04); }
-    .project-info { padding: 20px 24px; display: flex; justify-content: space-between; align-items: flex-end; }
-    .project-meta { display: flex; flex-direction: column; gap: 3px; }
-    .project-name { font-size: 1.05rem; font-weight: 500; letter-spacing: -0.01em; }
-    .project-tags { font-size: 0.78rem; color: var(--muted); line-height: 1.4; max-width: 320px; font-weight: 300; }
-    .project-type { font-size: 0.68rem; color: var(--muted); letter-spacing: 0.07em; text-transform: uppercase; opacity: 0.6; }
-    .project-arrow { font-size: 1.1rem; color: var(--muted); transition: transform 0.3s ease, color 0.2s; flex-shrink: 0; }
-    .project-card:hover .project-arrow { transform: translate(4px, -4px); color: var(--text); }
+    .projects-featured { display: flex; flex-direction: column; gap: 3px; }
+    .feat-card { background: #111110; display: grid; grid-template-columns: 1fr 1fr; align-items: center; cursor: none; overflow: hidden; min-height: 520px; text-decoration: none; color: inherit; position: relative; }
+    .feat-card:nth-child(even) .feat-info { order: 2; }
+    .feat-card:nth-child(even) .feat-visual { order: 1; }
+    .feat-img-wrap { overflow: hidden; height: 100%; min-height: 520px; }
+    .feat-img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94); filter: brightness(0.85); }
+    .feat-card:hover .feat-img { transform: scale(1.04); filter: brightness(1); }
+
+    /* Floating phone mockup layout */
+    .feat-visual { position: relative; height: 100%; min-height: 520px; display: flex; align-items: center; justify-content: center; overflow: hidden; padding: 40px 24px; }
+    .feat-phones { display: flex; align-items: flex-end; justify-content: center; gap: -20px; height: 100%; width: 100%; position: relative; }
+    .feat-phone-main {
+      height: 420px;
+      width: auto;
+      border-radius: 36px;
+      box-shadow: 0 40px 80px rgba(0,0,0,0.7), 0 0 0 1px rgba(255,255,255,0.08);
+      transform: translateY(0px);
+      transition: transform 0.6s ease;
+      position: relative;
+      z-index: 2;
+      object-fit: cover;
+    }
+    .feat-card:hover .feat-phone-main { transform: translateY(-8px); }
+
+    .feat-info { padding: 64px 56px; display: flex; flex-direction: column; justify-content: space-between; gap: 0; min-height: 520px; }
+    .feat-info-top { display: flex; flex-direction: column; gap: 20px; }
+    .feat-info-bottom { display: flex; flex-direction: column; gap: 12px; }
+    .feat-type { font-size: 0.68rem; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(255,255,255,0.35); }
+    .feat-name { font-size: clamp(1.6rem, 2.5vw, 2.4rem); font-weight: 300; letter-spacing: -0.025em; line-height: 1.1; color: #fff; }
+    .feat-desc { font-size: 0.88rem; color: rgba(255,255,255,0.45); line-height: 1.75; font-weight: 300; max-width: 320px; }
+    .feat-tags-row { font-size: 0.78rem; color: rgba(255,255,255,0.35); font-weight: 300; }
+    .feat-link { display: inline-flex; align-items: center; gap: 10px; font-size: 0.88rem; font-weight: 500; color: #fff; transition: gap 0.3s ease; }
+    .feat-link .feat-arrow { display: inline-flex; align-items: center; justify-content: center; width: 28px; height: 28px; background: rgba(255,255,255,0.12); border-radius: 50%; font-size: 0.9rem; transition: background 0.2s; }
+    .feat-card:hover .feat-link { gap: 14px; }
+    .feat-card:hover .feat-link .feat-arrow { background: rgba(255,255,255,0.22); }
+    .more-projects { padding: 80px 48px; border-top: 1px solid rgba(255,255,255,0.06); background: #111110; }
+    .more-label { font-size: 0.68rem; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(255,255,255,0.25); margin-bottom: 40px; }
+    .more-list { display: flex; flex-direction: column; }
+    .more-item { display: flex; justify-content: space-between; align-items: center; padding: 22px 0; border-top: 1px solid rgba(255,255,255,0.06); cursor: none; text-decoration: none; color: inherit; }
+    .more-item:last-child { border-bottom: 1px solid rgba(255,255,255,0.06); }
+    .more-item-left { display: flex; align-items: center; gap: 24px; }
+    .more-num { font-size: 0.68rem; color: rgba(255,255,255,0.2); width: 28px; }
+    .more-name { font-size: clamp(1.1rem, 2vw, 1.5rem); font-weight: 300; color: rgba(255,255,255,0.75); letter-spacing: -0.015em; transition: color 0.2s; }
+    .more-item:hover .more-name { color: #fff; }
+    .more-tags { font-size: 0.75rem; color: rgba(255,255,255,0.25); text-transform: uppercase; letter-spacing: 0.06em; }
+    .more-arrow { font-size: 1rem; color: rgba(255,255,255,0.2); transition: transform 0.3s, color 0.2s; }
+    .more-item:hover .more-arrow { transform: translate(4px,-4px); color: rgba(255,255,255,0.7); }
     #about { padding: 120px 48px; border-top: 1px solid var(--border); display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: start; }
     .about-heading { font-size: clamp(2.5rem, 5vw, 4rem); font-weight: 300; line-height: 1.1; letter-spacing: -0.025em; }
     .about-heading em { font-style: normal; color: var(--muted); }
@@ -75,12 +110,16 @@
     @media (max-width: 900px) {
       nav { padding: 20px 24px; }
       #hero { padding: 0 24px 60px; }
-      #work, #about, #contact { padding-left: 24px; padding-right: 24px; }
-      .hero-title { font-size: clamp(2.8rem, 10vw, 5rem); }
-      .hero-bottom { flex-direction: column; align-items: flex-start; gap: 28px; }
-      .projects-grid { grid-template-columns: 1fr; }
-      #about { grid-template-columns: 1fr; gap: 40px; }
-      footer { flex-direction: column; gap: 12px; text-align: center; }
+      .section-label { padding: 64px 24px 0; }
+      .feat-card { grid-template-columns: 1fr; min-height: auto; }
+      .feat-card:nth-child(even) { direction: ltr; }
+      .feat-img-wrap { min-height: 260px; }
+      .feat-info { padding: 32px 24px; }
+      .more-projects { padding: 48px 24px; }
+      .more-tags { display: none; }
+      #about { grid-template-columns: 1fr; gap: 40px; padding-left: 24px; padding-right: 24px; }
+      #contact { padding-left: 24px; padding-right: 24px; }
+      footer { flex-direction: column; gap: 12px; text-align: center; padding: 28px 24px; }
     }
   </style>
 </head>
@@ -104,74 +143,110 @@
   </section>
   <section id="work">
     <p class="section-label">Selected Work</p>
-    <div class="projects-grid">
-      <article class="project-card" onclick="window.location='ubi.html'" style="cursor:none">
-        <div class="project-img-wrap"><img class="project-img" src="https://picsum.photos/seed/ubi/1200/750" alt="UBI" loading="lazy" /></div>
-        <div class="project-info">
-          <div class="project-meta">
-            <span class="project-name">UBI</span>
-            <span class="project-tags">Redesigning the app that automates your car insurance</span>
-            <span class="project-type">Mobile App · UX/UI</span>
+
+    <!-- Featured projects with case studies -->
+    <div class="projects-featured">
+
+      <a class="feat-card" href="ubi.html">
+        <div class="feat-info">
+          <div class="feat-info-top">
+            <span class="feat-type">Mobile App · UX/UI</span>
+            <h3 class="feat-name">UBI — redesigning the app that automates your car insurance.</h3>
+            <p class="feat-desc">Redesigning the main screens to improve navigation, driving score visibility, and access to insurance benefits.</p>
           </div>
-          <span class="project-arrow">↗</span>
-        </div>
-      </article>
-      <article class="project-card">
-        <div class="project-img-wrap"><img class="project-img" src="https://picsum.photos/seed/essity/800/500" alt="Essity" loading="lazy" /></div>
-        <div class="project-info">
-          <div class="project-meta">
-            <span class="project-name">Essity</span>
-            <span class="project-tags">Generating closer communication between the wholesaler and Essity</span>
-            <span class="project-type">B2B · Product Design</span>
+          <div class="feat-info-bottom">
+            <p class="feat-tags-row">UX/UI Design, User Research, Prototyping</p>
+            <span class="feat-link">Read Case study <span class="feat-arrow">↗</span></span>
           </div>
-          <span class="project-arrow">↗</span>
         </div>
-      </article>
-      <article class="project-card">
-        <div class="project-img-wrap"><img class="project-img" src="https://picsum.photos/seed/cupones/800/500" alt="Cupones Lealtad" loading="lazy" /></div>
-        <div class="project-info">
-          <div class="project-meta">
-            <span class="project-name">Cupones Lealtad</span>
-            <span class="project-tags">Integrando cupones en el flujo transaccional</span>
-            <span class="project-type">UX Design · Fintech</span>
+        <div class="feat-visual">
+          <img class="feat-phone-main" src="dashboard.png" alt="UBI Dashboard" />
+        </div>
+      </a>
+
+      <a class="feat-card" href="#">
+        <div class="feat-info">
+          <div class="feat-info-top">
+            <span class="feat-type">B2B · Product Design</span>
+            <h3 class="feat-name">Essity — generating closer communication between the wholesaler and Essity.</h3>
+            <p class="feat-desc">Designing a platform that bridges communication and product discovery between Essity and its wholesale network.</p>
           </div>
-          <span class="project-arrow">↗</span>
-        </div>
-      </article>
-      <article class="project-card">
-        <div class="project-img-wrap"><img class="project-img" src="https://picsum.photos/seed/cybersource/1200/750" alt="Cybersource" loading="lazy" /></div>
-        <div class="project-info">
-          <div class="project-meta">
-            <span class="project-name">Cybersource</span>
-            <span class="project-tags">Un puente entre seguridad y usabilidad</span>
-            <span class="project-type">Security · UX Strategy</span>
+          <div class="feat-info-bottom">
+            <p class="feat-tags-row">UX/UI Design, User Research</p>
+            <span class="feat-link">Coming soon <span class="feat-arrow">→</span></span>
           </div>
-          <span class="project-arrow">↗</span>
         </div>
-      </article>
-      <article class="project-card">
-        <div class="project-img-wrap"><img class="project-img" src="https://picsum.photos/seed/splitpay/900/560" alt="Splitpay" loading="lazy" /></div>
-        <div class="project-info">
-          <div class="project-meta">
-            <span class="project-name">Splitpay</span>
-            <span class="project-tags">Habilitar dividir cuentas entre comensales</span>
-            <span class="project-type">Fintech · Mobile</span>
+        <div class="feat-visual">
+          <img class="feat-img" src="https://picsum.photos/seed/essity/800/700" alt="Essity" style="width:100%;height:100%;object-fit:cover;filter:brightness(0.6)" />
+        </div>
+      </a>
+
+      <a class="feat-card" href="#">
+        <div class="feat-info">
+          <div class="feat-info-top">
+            <span class="feat-type">UX Design · Fintech</span>
+            <h3 class="feat-name">Cupones Lealtad — integrando cupones en el flujo transaccional.</h3>
+            <p class="feat-desc">Integrating a loyalty coupon system seamlessly into the transactional flow without disrupting the user experience.</p>
           </div>
-          <span class="project-arrow">↗</span>
-        </div>
-      </article>
-      <article class="project-card">
-        <div class="project-img-wrap"><img class="project-img" src="https://picsum.photos/seed/roles/900/560" alt="Roles y Permisos" loading="lazy" /></div>
-        <div class="project-info">
-          <div class="project-meta">
-            <span class="project-name">Roles y Permisos</span>
-            <span class="project-tags">Habilitar roles y permisos en plataformas</span>
-            <span class="project-type">Dashboard · Enterprise UX</span>
+          <div class="feat-info-bottom">
+            <p class="feat-tags-row">UX Design, Fintech</p>
+            <span class="feat-link">Coming soon <span class="feat-arrow">→</span></span>
           </div>
-          <span class="project-arrow">↗</span>
         </div>
-      </article>
+        <div class="feat-visual">
+          <img class="feat-img" src="https://picsum.photos/seed/cupones/800/700" alt="Cupones" style="width:100%;height:100%;object-fit:cover;filter:brightness(0.6)" />
+        </div>
+      </a>
+
     </div>
+
+    <!-- More projects — list only -->
+    <div class="more-projects">
+      <p class="more-label">More projects</p>
+      <div class="more-list">
+        <a class="more-item" href="#">
+          <div class="more-item-left">
+            <span class="more-num">04</span>
+            <span class="more-name">Cybersource</span>
+          </div>
+          <span class="more-tags">Security · UX Strategy</span>
+          <span class="more-arrow">↗</span>
+        </a>
+        <a class="more-item" href="#">
+          <div class="more-item-left">
+            <span class="more-num">05</span>
+            <span class="more-name">Splitpay</span>
+          </div>
+          <span class="more-tags">Fintech · Mobile</span>
+          <span class="more-arrow">↗</span>
+        </a>
+        <a class="more-item" href="#">
+          <div class="more-item-left">
+            <span class="more-num">06</span>
+            <span class="more-name">Roles y Permisos</span>
+          </div>
+          <span class="more-tags">Dashboard · Enterprise UX</span>
+          <span class="more-arrow">↗</span>
+        </a>
+        <a class="more-item" href="#">
+          <div class="more-item-left">
+            <span class="more-num">07</span>
+            <span class="more-name">Banregio</span>
+          </div>
+          <span class="more-tags">Fintech · Web App</span>
+          <span class="more-arrow">↗</span>
+        </a>
+        <a class="more-item" href="#">
+          <div class="more-item-left">
+            <span class="more-num">08</span>
+            <span class="more-name">Restaurant to go</span>
+          </div>
+          <span class="more-tags">Mobile · UX/UI</span>
+          <span class="more-arrow">↗</span>
+        </a>
+      </div>
+    </div>
+
   </section>
   <section id="about">
     <div class="reveal">
