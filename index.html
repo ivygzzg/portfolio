@@ -318,29 +318,28 @@
       nav.classList.toggle('scrolled', window.scrollY > 40);
     });
 
-    // Scroll-triggered dark mode
-    var darkSection = document.querySelector('.projects-featured');
-    var lightSection = document.getElementById('about');
+    // Scroll-triggered dark mode — trigger al terminar las cards
+    var featuredSection = document.querySelector('.projects-featured');
     var bodyEl = document.body;
 
-    var darkObserver = new IntersectionObserver(function(entries) {
+    var scrollObserver = new IntersectionObserver(function(entries) {
       entries.forEach(function(entry) {
-        if (entry.isIntersecting) {
-          bodyEl.classList.add('dark-mode');
-        }
-      });
-    }, { threshold: 0.15 });
-
-    var lightObserver = new IntersectionObserver(function(entries) {
-      entries.forEach(function(entry) {
-        if (entry.isIntersecting) {
+        if (!entry.isIntersecting) {
+          // Cuando las cards ya no se ven (se fueron arriba), ponemos dark
+          if (entry.boundingClientRect.bottom < 0) {
+            bodyEl.classList.add('dark-mode');
+          } else {
+            // Las cards aún no llegaron, estamos arriba — light
+            bodyEl.classList.remove('dark-mode');
+          }
+        } else {
+          // Las cards están visibles — light
           bodyEl.classList.remove('dark-mode');
         }
       });
-    }, { threshold: 0.1 });
+    }, { threshold: 0 });
 
-    if (darkSection) darkObserver.observe(darkSection);
-    if (lightSection) lightObserver.observe(lightSection);
+    if (featuredSection) scrollObserver.observe(featuredSection);
     var reveals = document.querySelectorAll('.reveal');
     var observer = new IntersectionObserver(function(entries){
       entries.forEach(function(entry){
