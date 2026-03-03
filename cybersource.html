@@ -1,0 +1,761 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cybersource — Case Study · Ivonne González</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #f8f7f5;
+      --surface: #efefed;
+      --surface-dark: #e5e4e2;
+      --border: rgba(0,0,0,0.08);
+      --text: #111110;
+      --muted: rgba(17,17,16,0.45);
+      --accent: #6B3FF6;
+      --accent-light: #f0ebff;
+      --sans: 'Geist', Helvetica, sans-serif;
+    }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--sans);
+      font-size: 16px;
+      line-height: 1.6;
+      overflow-x: hidden;
+      cursor: none;
+    }
+
+    /* Cursor */
+    .cursor {
+      width: 10px; height: 10px;
+      background: var(--text);
+      border-radius: 50%;
+      position: fixed; top: 0; left: 0;
+      pointer-events: none;
+      z-index: 9999;
+      transform: translate(-50%,-50%);
+      transition: width 0.3s, height 0.3s;
+      mix-blend-mode: multiply;
+    }
+    .cursor.hovered { width: 40px; height: 40px; }
+
+    /* Nav */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 28px 48px;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid transparent;
+      transition: border-color 0.4s;
+    }
+    nav.scrolled { border-color: var(--border); }
+    .nav-logo { font-size: 1rem; font-weight: 400; color: var(--text); text-decoration: none; }
+    .nav-back {
+      display: flex; align-items: center; gap: 8px;
+      color: var(--muted); text-decoration: none;
+      font-size: 0.82rem; letter-spacing: 0.06em;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+    .nav-back:hover { color: var(--text); }
+    .nav-back svg { transition: transform 0.2s; }
+    .nav-back:hover svg { transform: translateX(-3px); }
+
+    /* Hero */
+    #hero {
+      padding: 160px 48px 100px;
+      border-bottom: 1px solid var(--border);
+    }
+    .hero-label {
+      font-size: 0.72rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 24px;
+      opacity: 0;
+      transform: translateY(12px);
+      animation: fadeUp 0.7s ease 0.2s forwards;
+    }
+    .hero-title {
+      font-size: clamp(3rem, 7vw, 6.5rem);
+      font-weight: 300;
+      line-height: 1.02;
+      letter-spacing: -0.03em;
+      max-width: 900px;
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeUp 0.8s ease 0.4s forwards;
+    }
+    .hero-title em { font-style: normal; color: var(--muted); }
+    .hero-meta-row {
+      display: flex;
+      gap: 80px;
+      margin-top: 64px;
+      padding-top: 48px;
+      border-top: 1px solid var(--border);
+      opacity: 0;
+      transform: translateY(12px);
+      animation: fadeUp 0.7s ease 0.7s forwards;
+    }
+    .meta-item { display: flex; flex-direction: column; gap: 6px; }
+    .meta-label {
+      font-size: 0.68rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .meta-value { font-size: 0.92rem; font-weight: 400; }
+
+    /* Sections */
+    .cs-section {
+      padding: 100px 48px;
+      border-bottom: 1px solid var(--border);
+    }
+    .cs-section:last-child { border-bottom: none; }
+
+    .section-tag {
+      font-size: 0.68rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 40px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .section-tag::before {
+      content: '';
+      width: 24px;
+      height: 1px;
+      background: var(--muted);
+      flex-shrink: 0;
+    }
+
+    /* Two-col layout */
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: start;
+    }
+    .two-col-wide {
+      display: grid;
+      grid-template-columns: 5fr 7fr;
+      gap: 80px;
+      align-items: start;
+    }
+
+    /* Text styles */
+    .cs-h2 {
+      font-size: clamp(2rem, 4vw, 3.2rem);
+      font-weight: 300;
+      line-height: 1.1;
+      letter-spacing: -0.025em;
+      margin-bottom: 28px;
+    }
+    .cs-h2 em { font-style: normal; color: var(--muted); }
+    .cs-h3 {
+      font-size: 1.25rem;
+      font-weight: 500;
+      letter-spacing: -0.01em;
+      margin-bottom: 14px;
+    }
+    .cs-body {
+      color: var(--muted);
+      line-height: 1.8;
+      font-size: 0.95rem;
+      font-weight: 300;
+      margin-bottom: 20px;
+    }
+    .cs-body:last-child { margin-bottom: 0; }
+
+    /* Problem cards */
+    .problem-list { display: flex; flex-direction: column; gap: 12px; margin-top: 8px; }
+    .problem-card {
+      padding: 20px 24px;
+      background: var(--surface);
+      border-radius: 8px;
+      border-left: 3px solid var(--accent);
+    }
+    .problem-card p {
+      font-size: 0.9rem;
+      color: var(--text);
+      line-height: 1.6;
+      font-weight: 300;
+    }
+    .problem-card strong { font-weight: 500; display: block; margin-bottom: 4px; font-size: 0.82rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--accent); }
+
+    /* Image placeholder */
+    .img-placeholder {
+      background: var(--surface);
+      border-radius: 10px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      color: var(--muted);
+      font-size: 0.78rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      overflow: hidden;
+    }
+    .img-placeholder svg { opacity: 0.3; }
+
+    /* Full-width image */
+    .img-full {
+      width: 100%;
+      border-radius: 10px;
+      background: var(--surface);
+      aspect-ratio: 16/9;
+    }
+    .img-tall { aspect-ratio: 3/4; }
+    .img-phone { aspect-ratio: 9/16; max-width: 280px; }
+    .img-wide { aspect-ratio: 21/9; }
+
+    /* Hero image strip */
+    .hero-visual {
+      width: 100%;
+      background: #0f1623;
+      border-radius: 12px;
+      aspect-ratio: 16/7;
+      margin-top: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      position: relative;
+    }
+    .hero-visual-label {
+      position: absolute;
+      bottom: 24px;
+      left: 24px;
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.4);
+    }
+    .hero-visual-placeholder {
+      color: rgba(255,255,255,0.15);
+      font-size: 0.85rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    /* Quote highlight */
+    .cs-quote {
+      padding: 32px 40px;
+      background: var(--accent);
+      border-radius: 10px;
+      color: white;
+    }
+    .cs-quote p {
+      font-size: 1rem;
+      line-height: 1.7;
+      font-weight: 300;
+    }
+    .cs-quote .q-label {
+      font-size: 0.68rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      opacity: 0.6;
+      margin-bottom: 12px;
+    }
+
+    /* Matrix / grid visual */
+    .matrix-placeholder {
+      width: 100%;
+      aspect-ratio: 4/3;
+      background: var(--surface);
+      border-radius: 10px;
+    }
+
+    /* Solutions list */
+    .solutions-list { display: flex; flex-direction: column; gap: 16px; }
+    .solution-item {
+      display: flex;
+      gap: 20px;
+      align-items: flex-start;
+      padding: 20px 24px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      transition: border-color 0.2s;
+    }
+    .solution-item:hover { border-color: var(--text); }
+    .solution-num {
+      font-size: 0.72rem;
+      color: var(--accent);
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      flex-shrink: 0;
+      padding-top: 2px;
+    }
+    .solution-item p { font-size: 0.9rem; color: var(--text); font-weight: 300; line-height: 1.6; }
+
+    /* Phones grid */
+    .phones-row {
+      display: flex;
+      gap: 16px;
+      overflow-x: auto;
+      padding-bottom: 8px;
+    }
+    .phone-card {
+      flex-shrink: 0;
+      width: 220px;
+    }
+    .phone-img {
+      width: 100%;
+      aspect-ratio: 9/16;
+      background: var(--surface);
+      border-radius: 20px;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .phone-label { font-size: 0.78rem; color: var(--muted); text-align: center; }
+
+    /* Design decisions */
+    .decision-block { margin-bottom: 80px; }
+    .decision-block:last-child { margin-bottom: 0; }
+    .decision-tag {
+      font-size: 0.68rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 12px;
+      font-weight: 500;
+    }
+
+    /* Three-phones */
+    .three-phones {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+    .three-phones .phone-frame {
+      background: var(--surface);
+      border-radius: 20px;
+      aspect-ratio: 9/16;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--muted);
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    /* Footer */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 28px 48px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: var(--muted);
+      font-size: 0.78rem;
+      font-weight: 300;
+    }
+    .social-links { display: flex; gap: 24px; }
+    .social-links a {
+      color: var(--muted); text-decoration: none;
+      font-size: 0.78rem; text-transform: uppercase;
+      letter-spacing: 0.05em; transition: color 0.2s;
+    }
+    .social-links a:hover { color: var(--text); }
+
+    /* Reveal */
+    .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.7s ease, transform 0.7s ease; }
+    .reveal.visible { opacity: 1; transform: none; }
+
+    .stats-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 3px; margin-top: 48px; }
+    .stat-card { background: var(--surface); padding: 32px 28px; border-radius: 8px; }
+    .stat-num { font-size: clamp(2.5rem, 5vw, 4rem); font-weight: 300; letter-spacing: -0.04em; color: var(--accent); }
+    .stat-desc { font-size: 0.82rem; color: var(--muted); margin-top: 6px; font-weight: 300; line-height: 1.5; }
+    .insights-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 48px; }
+    .insight-card { padding: 28px; background: var(--surface); border-radius: 12px; border: 1px solid var(--border); }
+    .insight-role { font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); margin-bottom: 10px; }
+    .insight-quote { font-size: 0.9rem; color: var(--text); line-height: 1.7; font-style: italic; font-weight: 300; }
+    .solution-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3px; margin-top: 48px; }
+    .solution-card { background: var(--surface); border-radius: 8px; padding: 36px 32px; }
+    .solution-card.dark { background: #111110; }
+    .solution-card.accent { background: var(--accent); }
+    .solution-letter { font-size: 0.68rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); margin-bottom: 16px; }
+    .solution-card.dark .solution-letter { color: rgba(255,255,255,0.4); }
+    .solution-card.accent .solution-letter { color: rgba(255,255,255,0.7); }
+    .solution-title { font-size: 1.3rem; font-weight: 400; letter-spacing: -0.015em; margin-bottom: 16px; }
+    .solution-card.dark .solution-title, .solution-card.accent .solution-title { color: #fff; }
+    .solution-list { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+    .solution-list li { font-size: 0.88rem; color: var(--muted); padding-left: 16px; position: relative; font-weight: 300; line-height: 1.6; }
+    .solution-card.dark .solution-list li { color: rgba(255,255,255,0.5); }
+    .solution-card.accent .solution-list li { color: rgba(255,255,255,0.8); }
+    .solution-list li::before { content: '—'; position: absolute; left: 0; color: var(--border); }
+    .solution-card.dark .solution-list li::before { color: rgba(255,255,255,0.15); }
+    .solution-card.accent .solution-list li::before { color: rgba(255,255,255,0.3); }
+    .flow-steps { display: flex; flex-direction: column; margin-top: 48px; }
+    .flow-step { display: flex; gap: 24px; padding: 20px 0; border-bottom: 1px solid var(--border); align-items: flex-start; }
+    .flow-step:last-child { border-bottom: none; }
+    .flow-num { font-size: 0.68rem; color: var(--muted); width: 28px; flex-shrink: 0; padding-top: 3px; }
+    .flow-content strong { font-size: 0.92rem; font-weight: 500; display: block; margin-bottom: 4px; }
+    .flow-content p { font-size: 0.88rem; color: var(--muted); font-weight: 300; }
+    .before-after { display: grid; grid-template-columns: 1fr 1fr; gap: 3px; margin-top: 48px; }
+    .ba-col { padding: 36px 32px; border-radius: 8px; }
+    .ba-col.before { background: var(--surface); }
+    .ba-col.after { background: #111110; }
+    .ba-label { font-size: 0.68rem; letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 24px; }
+    .ba-col.before .ba-label { color: var(--muted); }
+    .ba-col.after .ba-label { color: rgba(255,255,255,0.35); }
+    .ba-list { display: flex; flex-direction: column; gap: 12px; }
+    .ba-item { display: flex; align-items: flex-start; gap: 12px; font-size: 0.88rem; font-weight: 300; line-height: 1.6; }
+    .ba-col.before .ba-item { color: var(--muted); }
+    .ba-col.after .ba-item { color: rgba(255,255,255,0.6); }
+    .ba-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; margin-top: 8px; }
+    .ba-col.before .ba-dot { background: var(--muted); }
+    .ba-col.after .ba-dot { background: var(--accent); }
+    .conclusion-box { background: #111110; border-radius: 16px; padding: 64px; margin-top: 48px; }
+    .conclusion-box h3 { font-size: clamp(1.8rem, 3.5vw, 2.8rem); font-weight: 300; letter-spacing: -0.025em; color: #fff; line-height: 1.2; margin-bottom: 32px; }
+    .conclusion-box h3 em { font-style: normal; color: rgba(255,255,255,0.35); }
+    .conclusion-box p { color: rgba(255,255,255,0.5); font-size: 0.95rem; line-height: 1.8; font-weight: 300; }
+
+    @keyframes fadeUp { to { opacity: 1; transform: none; } }
+
+    /* Responsive */
+    @media (max-width: 900px) {
+      nav { padding: 20px 24px; }
+      #hero { padding: 120px 24px 60px; }
+      .cs-section { padding: 64px 24px; }
+      .hero-meta-row { flex-wrap: wrap; gap: 32px; }
+      .two-col, .two-col-wide { grid-template-columns: 1fr; gap: 40px; }
+      .three-phones { grid-template-columns: repeat(2, 1fr); }
+      footer { flex-direction: column; gap: 12px; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+  <div class="cursor" id="cursor"></div>
+
+  <nav id="nav">
+    <a href="index.html" class="nav-logo">Ivonne González</a>
+    <a href="index.html" class="nav-back">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M10 12L6 8l4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      Back to work
+    </a>
+  </nav>
+
+  <!-- HERO -->
+  <section id="hero">
+    <p class="hero-label">Case Study · Security · UX/UI</p>
+    <h1 class="hero-title">Integrating Cybersource DM & 3DS — a bridge between <em>security</em> and usability</h1>
+    <div class="hero-meta-row">
+      <div class="meta-item">
+        <span class="meta-label">Project</span>
+        <span class="meta-value">Cybersource · Velpay</span>
+      </div>
+      <div class="meta-item">
+        <span class="meta-label">Role</span>
+        <span class="meta-value">UX/UI Designer</span>
+      </div>
+      <div class="meta-item">
+        <span class="meta-label">Team</span>
+        <span class="meta-value">Engineer team · Scrum Master</span>
+      </div>
+      <div class="meta-item">
+        <span class="meta-label">Scope</span>
+        <span class="meta-value">1 month</span>
+      </div>
+    </div>
+    <div class="hero-visual reveal" style="transition-delay:0.9s">
+      <img src="cybersource.png" alt="Cybersource Backoffice design" style="width:100%;display:block;" />
+    </div>
+  </section>
+
+  <!-- CONTEXT -->
+  <section class="cs-section">
+    <p class="section-tag">Context</p>
+    <div class="two-col-wide">
+      <div class="reveal">
+        <h2 class="cs-h2">What is <em>Cybersource?</em></h2>
+        <p class="cs-body">Velpay sought to strengthen fraud prevention in its digital transactions by integrating Cybersource Decision Manager (DM). The challenge was not just the technical API connection, but incorporating new Backoffice features so internal teams (Commercial, Operations, Risk) could configure the tool flexibly for each merchant.</p>
+        <p class="cs-body">I redesigned the interface and worked closely with the engineering team to improve the UX/UI of the Backoffice, the merchant-facing Assistant portal, and the end-user checkout experience.</p>
+      </div>
+      <div class="reveal" style="transition-delay:0.15s">
+        <div class="cs-quote">
+          <p class="q-label">What is Cybersource Decision Manager?</p>
+          <p>A fraud management platform using AI and configurable rules to decide whether a transaction is accepted, rejected, or sent for review in milliseconds. Real-time evaluation, custom fraud rules, full audit logs, and compliance with international standards.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROBLEM -->
+  <section class="cs-section">
+    <p class="section-tag">Problem</p>
+    <div class="two-col">
+      <div class="reveal">
+        <h2 class="cs-h2">Fraud prevention was <em>manual, slow,</em> and opaque for merchants</h2>
+      </div>
+      <div class="reveal" style="transition-delay:0.15s">
+        <div class="problem-list">
+          <div class="problem-card"><strong>High fraud incidence in card-not-present transactions</strong><p>Manual review processes caused delays of up to 24 hours. CNP fraud rate was at 1.2% of monthly transactions.</p></div>
+          <div class="problem-card"><strong>No granular Backoffice configuration</strong><p>Some merchants had their own fraud validators but the BO had no module to manage this logic, limiting autonomy and personalization.</p></div>
+          <div class="problem-card"><strong>False positives damaging user experience</strong><p>~4.5% false positive rate was rejecting legitimate purchases, frustrating users and generating constant support calls.</p></div>
+          <div class="problem-card"><strong>No merchant transparency</strong><p>Merchants had no visibility into Risk Scores or rejection reasons, creating distrust and dependence on Velpay for every change.</p></div>
+        </div>
+      </div>
+    </div>
+    <div class="stats-row reveal" style="transition-delay:0.2s">
+      <div class="stat-card"><div class="stat-num">4.5%</div><div class="stat-desc">False positive rate — legitimate transactions being rejected</div></div>
+      <div class="stat-card"><div class="stat-num">24h</div><div class="stat-desc">Average time for manual fraud review before integration</div></div>
+      <div class="stat-card"><div class="stat-num">1.2%</div><div class="stat-desc">CNP fraud rate on monthly transactions</div></div>
+    </div>
+  </section>
+
+  <!-- OBJECTIVE -->
+  <section class="cs-section">
+    <p class="section-tag">Objective</p>
+    <div class="reveal">
+      <h2 class="cs-h2" style="max-width: 820px;">Design secure, easy-to-use flows that give merchants <em>autonomy</em> and internal teams full control</h2>
+    </div>
+    <div class="two-col" style="margin-top: 48px;">
+      <div class="reveal" style="transition-delay:0.1s">
+        <p class="cs-body">Design intuitive flows for enabling DM and 3DS. Allow merchants to manage Cybersource keys and services independently without depending on Velpay for every change.</p>
+      </div>
+      <div class="reveal" style="transition-delay:0.2s">
+        <p class="cs-body">Give internal teams clear administrative control. Improve transparency by surfacing Risk Score and rejection reasons. Ensure the checkout experience is smooth and aligned with international security standards.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- RESEARCH -->
+  <section class="cs-section">
+    <p class="section-tag">Research &amp; Insights</p>
+    <div class="two-col-wide" style="margin-bottom: 64px;">
+      <div class="reveal">
+        <h2 class="cs-h2">Stakeholder interviews revealed <em>competing needs</em> across teams</h2>
+        <p class="cs-body">Benchmarks from Stripe Radar and Adyen RevenueProtect confirmed: transparency toward merchants is a competitive advantage. Native fraud dashboards with granular visibility build trust and reduce friction.</p>
+      </div>
+      <div class="reveal" style="transition-delay:0.15s">
+        <div class="cs-quote">
+          <p class="q-label">Key Learning</p>
+          <p>The real challenge was designing for two distinct audiences with separate but coherent flows, while making complex security configuration feel simple, guided, and trustworthy.</p>
+        </div>
+      </div>
+    </div>
+    <div class="insights-grid reveal">
+      <div class="insight-card"><p class="insight-role">Comercial</p><p class="insight-quote">"We need to activate or deactivate DM without depending on engineering — each client has different needs."</p></div>
+      <div class="insight-card"><p class="insight-role">Riesgo</p><p class="insight-quote">"False positives are more damaging than fraud itself, because the customer leaves frustrated."</p></div>
+      <div class="insight-card"><p class="insight-role">Operaciones</p><p class="insight-quote">"Manual case review slows down the entire process and drives up costs."</p></div>
+    </div>
+  </section>
+
+  <!-- SOLUTION -->
+  <section class="cs-section">
+    <p class="section-tag">Solution</p>
+    <div class="reveal">
+      <h2 class="cs-h2" style="max-width: 780px;">Three integrated touchpoints solving a <em>different layer</em> of the problem</h2>
+    </div>
+    <div class="solution-grid reveal" style="transition-delay:0.15s">
+      <div class="solution-card">
+        <p class="solution-letter">A — Backoffice</p>
+        <h3 class="solution-title">New module in Merchant Configuration</h3>
+        <ul class="solution-list">
+          <li>Activate/deactivate DM and 3DS per merchant</li>
+          <li>Configure transaction type: processed or successful</li>
+          <li>Default: fraud tool enabled (Processed: ON)</li>
+          <li>Clear hierarchical navigation in Other Services</li>
+          <li>Visual alignment of radio buttons and labels</li>
+        </ul>
+      </div>
+      <div class="solution-card dark">
+        <p class="solution-letter">B — Assistant (Merchants)</p>
+        <h3 class="solution-title">Module to load and manage Cybersource keys</h3>
+        <ul class="solution-list">
+          <li>Manual entry of public and secret keys</li>
+          <li>Upload .pem file method</li>
+          <li>Edit or delete existing keys</li>
+          <li>No key loaded: DM and 3DS unavailable</li>
+          <li>Valid key: services auto-enabled with ON/OFF toggle</li>
+        </ul>
+      </div>
+      <div class="solution-card accent">
+        <p class="solution-letter">C — Checkout (End users)</p>
+        <h3 class="solution-title">3DS auth + real-time DM evaluation</h3>
+        <ul class="solution-list">
+          <li>3DS challenge via iframe when required</li>
+          <li>Visible trust logos and clear messaging</li>
+          <li>DM evaluates risk in real time</li>
+          <li>Merchants see Risk Score and rejection reason</li>
+        </ul>
+      </div>
+      <div class="solution-card">
+        <p class="solution-letter">Impact</p>
+        <h3 class="solution-title">Autonomy, transparency, and control at every level</h3>
+        <ul class="solution-list">
+          <li>Commercial: activate/deactivate DM per client without engineering</li>
+          <li>Merchants: use their own rules engine or Velpay's</li>
+          <li>Internal users: cleaner BO with visually aligned options</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- IDEATION -->
+  <section class="cs-section">
+    <p class="section-tag">Ideation — User Flows</p>
+    <div class="two-col" style="margin-bottom: 64px;">
+      <div class="reveal">
+        <h2 class="cs-h2">Three flows for <em>three audiences</em></h2>
+        <p class="cs-body">Designing for internal users and external merchants required separate but coherent flows. The checkout flow depended entirely on configurations set by the other two — getting the hierarchy right was essential.</p>
+      </div>
+      <div class="reveal" style="transition-delay:0.15s">
+        <p class="cs-body">Every design decision in the BO had a downstream effect on what merchants could configure, and what their customers experienced at checkout. This interdependency shaped every interaction pattern.</p>
+      </div>
+    </div>
+    <div class="flow-steps reveal">
+      <div class="flow-step">
+        <span class="flow-num">01</span>
+        <div class="flow-content">
+          <strong>Backoffice — Internal User</strong>
+          <p>Login → Merchant Config → Other Services → API → Cybersource → Fraud Tool. Review default state (Processed: ON). Adjust type or toggle DM. Changes saved to DB. API validates if service is contracted.</p>
+        </div>
+      </div>
+      <div class="flow-step">
+        <span class="flow-num">02</span>
+        <div class="flow-content">
+          <strong>Assistant — Merchant Admin</strong>
+          <p>Login → Settings → Cybersource Keys. System shows current state. Options: manual entry, .pem upload, edit/delete. No key: DM/3DS unavailable. Valid key: services auto-enabled. Independent ON/OFF switch per service.</p>
+        </div>
+      </div>
+      <div class="flow-step">
+        <span class="flow-num">03</span>
+        <div class="flow-content">
+          <strong>Checkout — End User</strong>
+          <p>Initiates checkout → enters payment data → DM evaluates risk in real time. If 3DS required: iframe challenge → OTP or app auth. Payment processed. Merchant receives Risk Score and rejection reason in report.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- DESIGN EXECUTION -->
+  <section class="cs-section">
+    <p class="section-tag">Design Execution</p>
+    <div class="reveal" style="margin-bottom: 64px;">
+      <h2 class="cs-h2" style="max-width: 760px;">Making <em>complex configuration</em> feel simple and trustworthy</h2>
+    </div>
+    <div class="two-col">
+      <div class="reveal" style="transition-delay:0.1s">
+        <h3 class="cs-h3">Backoffice — Other Services module</h3>
+        <p class="cs-body">The new Merchant Configuration section introduces a clean hierarchy. The Fraud Tool checkbox is visible by default (Processed: ON), with clear radio button labels. Visual alignment was a priority — a misaligned label in a critical payment configuration creates real errors.</p>
+      </div>
+      <div class="reveal" style="transition-delay:0.2s">
+        <h3 class="cs-h3">Assistant — Key management</h3>
+        <p class="cs-body">Merchants load Cybersource keys manually or via .pem. Credentials are shown once and encrypted thereafter. A warning modal prevents accidental loss. The ON/OFF toggle only activates when a valid key is loaded, preventing configuration errors.</p>
+      </div>
+    </div>
+    <div style="margin-top: 64px; border-radius: 16px; overflow: hidden; background: var(--accent-light); padding: 40px;" class="reveal">
+      <img src="cybersource.png" alt="Cybersource Backoffice" style="width:100%;border-radius:12px;box-shadow:0 24px 60px rgba(0,0,0,0.12);display:block;" />
+    </div>
+
+    <div class="before-after reveal" style="margin-top: 3px;">
+      <div class="ba-col before">
+        <p class="ba-label">Before</p>
+        <div class="ba-list">
+          <div class="ba-item"><span class="ba-dot"></span>100% manual fraud review — delays up to 24 hours</div>
+          <div class="ba-item"><span class="ba-dot"></span>4.5% false positive rate rejecting legitimate transactions</div>
+          <div class="ba-item"><span class="ba-dot"></span>No BO module to configure fraud rules per merchant</div>
+          <div class="ba-item"><span class="ba-dot"></span>No Risk Score or rejection reason visible to merchants</div>
+        </div>
+      </div>
+      <div class="ba-col after">
+        <p class="ba-label">After</p>
+        <div class="ba-list">
+          <div class="ba-item"><span class="ba-dot"></span>Real-time validation in milliseconds with Cybersource DM</div>
+          <div class="ba-item"><span class="ba-dot"></span>Estimated false positive reduction to 1.8% in phase one</div>
+          <div class="ba-item"><span class="ba-dot"></span>BO with antifraude config module — autonomy for all teams</div>
+          <div class="ba-item"><span class="ba-dot"></span>Merchants manage their own keys — fewer internal dependencies</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- LEARNINGS -->
+  <section class="cs-section">
+    <p class="section-tag">Learnings</p>
+    <div class="two-col-wide">
+      <div class="reveal">
+        <h2 class="cs-h2">Security UX is about <em>clarity,</em> not complexity</h2>
+      </div>
+      <div class="reveal" style="transition-delay:0.15s">
+        <p class="cs-body">Designing for two distinct audiences requires separate but coherent flows. Security configuration must be unambiguous — what is technically complex (keys, fraud rules) must translate into simple, guided steps.</p>
+        <p class="cs-body">Visual consistency is not cosmetic when users are configuring critical financial settings. A misaligned radio button can lead to real errors with real business impact.</p>
+        <p class="cs-body">Transparency toward merchants generates trust and reduces the support burden on internal teams. In a payments ecosystem, good UX makes security feel like added value — not friction.</p>
+      </div>
+    </div>
+    <div class="conclusion-box reveal" style="transition-delay:0.15s">
+      <h3>This project shows how UX can be the bridge between <em>security and usability</em> — making the complex feel simple, and the invisible feel trustworthy.</h3>
+      <p>Integrating Cybersource DM and 3DS in Velpay reduced fraud and costs, improved checkout for end users, gave merchants autonomy and control, and made the Backoffice genuinely usable for the people who rely on it every day.</p>
+    </div>
+  </section>
+
+  <section class="cs-section" style="text-align: center; padding: 80px 48px;">
+    <p class="cs-body reveal" style="margin-bottom: 32px;">Back to portfolio</p>
+    <a href="index.html" class="reveal" style="display: inline-flex; align-items: center; gap: 10px; text-decoration: none; color: var(--text); font-size: 1.4rem; font-weight: 300; letter-spacing: -0.02em; transition: gap 0.2s;" onmouseenter="this.style.gap='18px'" onmouseleave="this.style.gap='10px'">
+      View all projects <span>&#x2197;</span>
+    </a>
+  </section>
+
+  <footer>
+    <span>&#169; 2025 Ivonne Gonz&#225;lez Garc&#237;a</span>
+    <div class="social-links">
+      <a href="#" id="footer-email">Email</a>
+      <a href="#">LinkedIn</a>
+    </div>
+  </footer>
+
+  <script>
+    (function(){
+      var u = 'ivygzzg'; var d = 'gmail.com';
+      var e = u + '@' + d;
+      var fe = document.getElementById('footer-email');
+      if (fe) { fe.textContent = e; fe.href = 'mailto:' + e; }
+    })();
+
+    var cursor = document.getElementById('cursor');
+    document.addEventListener('mousemove', function(e){
+      cursor.style.left = e.clientX + 'px';
+      cursor.style.top = e.clientY + 'px';
+    });
+    document.querySelectorAll('a, button, .solution-item, .problem-card, .skill-item').forEach(function(el){
+      el.addEventListener('mouseenter', function(){ cursor.classList.add('hovered'); });
+      el.addEventListener('mouseleave', function(){ cursor.classList.remove('hovered'); });
+    });
+
+    var nav = document.getElementById('nav');
+    window.addEventListener('scroll', function(){
+      nav.classList.toggle('scrolled', window.scrollY > 40);
+    });
+
+    var reveals = document.querySelectorAll('.reveal');
+    var observer = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if(entry.isIntersecting){
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.05, rootMargin: '0px 0px -40px 0px' });
+    reveals.forEach(function(el){ observer.observe(el); });
+  </script>
+</body>
+</html>
