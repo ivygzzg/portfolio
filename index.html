@@ -36,8 +36,8 @@
     #work { border-top: 1px solid var(--border); }
     .section-label { font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); margin-bottom: 64px; display: flex; align-items: center; gap: 16px; padding: 120px 48px 0; }
     .section-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
-    .projects-featured { display: flex; flex-direction: column; gap: 3px; }
-    .feat-card { background: #111110; display: grid; grid-template-columns: 1fr 1fr; align-items: center; cursor: none; overflow: hidden; min-height: 520px; text-decoration: none; color: inherit; position: relative; }
+    .projects-featured { display: flex; flex-direction: column; gap: 3px; padding: 0 48px; }
+    .feat-card { background: #111110; display: grid; grid-template-columns: 1fr 1fr; align-items: center; cursor: none; overflow: hidden; min-height: 520px; text-decoration: none; color: inherit; position: relative; border-radius: 12px; }
     .feat-card:nth-child(even) .feat-info { order: 2; }
     .feat-card:nth-child(even) .feat-visual { order: 1; }
     .feat-img-wrap { overflow: hidden; height: 100%; min-height: 520px; }
@@ -111,7 +111,8 @@
       nav { padding: 20px 24px; }
       #hero { padding: 0 24px 60px; }
       .section-label { padding: 64px 24px 0; }
-      .feat-card { grid-template-columns: 1fr; min-height: auto; }
+      .projects-featured { padding: 0 16px; }
+      .feat-card { grid-template-columns: 1fr; min-height: auto; border-radius: 8px; }
       .feat-card:nth-child(even) { direction: ltr; }
       .feat-img-wrap { min-height: 260px; }
       .feat-info { padding: 32px 24px; }
