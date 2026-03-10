@@ -154,46 +154,28 @@
       #contact { padding-left: 24px; padding-right: 24px; }
       footer { flex-direction: column; gap: 12px; text-align: center; padding: 28px 24px; }
     }
-
-    .lang-btn {
-      background: none;
-      border: 1px solid var(--border);
-      color: var(--muted);
-      font-family: var(--sans);
-      font-size: 0.78rem;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      padding: 6px 14px;
-      border-radius: 100px;
-      cursor: none;
-      transition: color 0.2s, border-color 0.2s;
-    }
-    .lang-btn:hover { color: var(--text); border-color: var(--text); }
   </style>
 </head>
 <body>
   <div class="cursor" id="cursor"></div>
   <nav id="nav">
     <a href="#" class="nav-logo">Ivonne González</a>
-    <div style="display:flex;align-items:center;gap:28px;">
-      <ul class="nav-links">
-        <li><a href="#work" data-en="Work" data-es="Trabajo">Work</a></li>
-        <li><a href="#about" data-en="About" data-es="Acerca">About</a></li>
-        <li><a href="#contact" data-en="Contact" data-es="Contacto">Contact</a></li>
-      </ul>
-      <button class="lang-btn" id="lang-btn" onclick="toggleLang()">ES</button>
-    </div>
+    <ul class="nav-links">
+      <li><a href="#work">Work</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
   </nav>
   <section id="hero">
-    <p class="hero-tag"><span data-en="UX · UI · Interaction Design" data-es="UX · UI · Diseño de Interacción">UX · UI · Interaction Design</span></p>
-    <h1 class="hero-title"><span data-en="Crafting digital" data-es="Creando experiencias">Crafting digital</span><br><em data-en="experiences" data-es="digitales">experiences</em> <span data-en="that" data-es="que ayudan">that</span><br><span data-en="help people" data-es="a las personas">help people</span></h1>
+    <p class="hero-tag">UX · UI · Interaction Design</p>
+    <h1 class="hero-title">Crafting digital<br><em>experiences</em> that<br>help people</h1>
     <div class="hero-bottom">
-      <p class="hero-bio"><span data-en="Hello! I'm Ivonne 👋🏻 – An Interdisciplinary designer with a passion to create digital experiences that help people. Currently open for freelance projects." data-es="¡Hola! Soy Ivonne 👋🏻 – Diseñadora interdisciplinaria apasionada por crear experiencias digitales que ayudan a las personas. Actualmente disponible para proyectos freelance.">Hello! I'm Ivonne 👋🏻 – An Interdisciplinary designer with a passion to create digital experiences that help people. Currently open for freelance projects.</span></p>
-      <div class="hero-scroll"><span class="scroll-line"></span><span data-en="Scroll to explore" data-es="Desplázate para explorar">Scroll to explore</span></div>
+      <p class="hero-bio">Hello! I'm Ivonne 👋🏻 – An Interdisciplinary designer with a passion to create digital experiences that help people. Currently open for freelance projects.</p>
+      <div class="hero-scroll"><span class="scroll-line"></span>Scroll to explore</div>
     </div>
   </section>
   <section id="work">
-    <p class="section-label"><span data-en="Selected Work" data-es="Trabajo Seleccionado">Selected Work</span></p>
+    <p class="section-label">Selected Work</p>
 
     <!-- Featured projects with case studies -->
     <div class="projects-featured">
@@ -201,13 +183,13 @@
       <a class="feat-card" href="ubi.html">
         <div class="feat-info">
           <div class="feat-info-top">
-            <span class="feat-type"><span data-en="Mobile App · UX/UI" data-es="App Móvil · UX/UI">Mobile App · UX/UI</span></span>
+            <span class="feat-type">Mobile App · UX/UI</span>
             <h3 class="feat-name">UBI — redesigning the app that automates your car insurance.</h3>
-            <p class="feat-desc"><span data-en="Redesigning the main screens to improve navigation, driving score visibility, and access to insurance benefits." data-es="Rediseño de las pantallas principales para mejorar la navegación, visibilidad del score de manejo y acceso a beneficios de seguro.">Redesigning the main screens to improve navigation, driving score visibility, and access to insurance benefits.</span></p>
+            <p class="feat-desc">Redesigning the main screens to improve navigation, driving score visibility, and access to insurance benefits.</p>
           </div>
           <div class="feat-info-bottom">
-            <p class="feat-tags-row"><span data-en="UX/UI Design, User Research, Prototyping" data-es="Diseño UX/UI, Investigación, Prototipado">UX/UI Design, User Research, Prototyping</span></p>
-            <span class="feat-link"><span data-en="Read Case study" data-es="Ver caso de estudio">Read Case study</span> <span class="feat-arrow">↗</span></span>
+            <p class="feat-tags-row">UX/UI Design, User Research, Prototyping</p>
+            <span class="feat-link">Read Case study <span class="feat-arrow">↗</span></span>
           </div>
         </div>
         <div class="feat-visual">
@@ -218,13 +200,13 @@
       <a class="feat-card" href="cybersource.html">
         <div class="feat-info">
           <div class="feat-info-top">
-            <span class="feat-type"><span data-en="Security · UX Strategy" data-es="Seguridad · Estrategia UX">Security · UX Strategy</span></span>
+            <span class="feat-type">Security · UX Strategy</span>
             <h3 class="feat-name">Cybersource — integrating fraud prevention into Velpay's payment gateway.</h3>
-            <p class="feat-desc"><span data-en="Designing the Backoffice configuration, merchant key management, and checkout 3DS flows for Cybersource DM integration." data-es="Diseño de la configuración del Backoffice, gestión de llaves de comercio y flujos de checkout 3DS para la integración de Cybersource DM.">Designing the Backoffice configuration, merchant key management, and checkout 3DS flows for Cybersource DM integration.</span></p>
+            <p class="feat-desc">Designing the Backoffice configuration, merchant key management, and checkout 3DS flows for Cybersource DM integration.</p>
           </div>
           <div class="feat-info-bottom">
-            <p class="feat-tags-row"><span data-en="UX/UI Design, Fintech, Security" data-es="Diseño UX/UI, Fintech, Seguridad">UX/UI Design, Fintech, Security</span></p>
-            <span class="feat-link"><span data-en="Read Case study" data-es="Ver caso de estudio">Read Case study</span> <span class="feat-arrow">↗</span></span>
+            <p class="feat-tags-row">UX/UI Design, Fintech, Security</p>
+            <span class="feat-link">Read Case study <span class="feat-arrow">↗</span></span>
           </div>
         </div>
         <div class="feat-visual">
@@ -232,20 +214,20 @@
         </div>
       </a>
 
-      <a class="feat-card" href="#">
+      <a class="feat-card" href="cupones.html">
         <div class="feat-info">
           <div class="feat-info-top">
-            <span class="feat-type"><span data-en="UX Design · Fintech" data-es="Diseño UX · Fintech">UX Design · Fintech</span></span>
-            <h3 class="feat-name">Cupones Lealtad — integrando cupones en el flujo transaccional.</h3>
-            <p class="feat-desc"><span data-en="Integrating a loyalty coupon system seamlessly into the transactional flow without disrupting the user experience." data-es="Integración de un sistema de cupones de lealtad en el flujo transaccional sin interrumpir la experiencia del usuario.">Integrating a loyalty coupon system seamlessly into the transactional flow without disrupting the user experience.</span></p>
+            <span class="feat-type">Mobile · Fintech</span>
+            <h3 class="feat-name">Cupones Lealtad — integrating loyalty benefits into Velpay's payment flow.</h3>
+            <p class="feat-desc">Designing a real-time coupon validation system inside the TPV checkout — without disrupting payments, conciliation, or liquidation.</p>
           </div>
           <div class="feat-info-bottom">
-            <p class="feat-tags-row"><span data-en="UX Design, Fintech" data-es="Diseño UX, Fintech">UX Design, Fintech</span></p>
-            <span class="feat-link">Coming soon <span class="feat-arrow">→</span></span>
+            <p class="feat-tags-row">UX/UI Design, Mobile, Fintech</p>
+            <span class="feat-link">Read case study <span class="feat-arrow">↗</span></span>
           </div>
         </div>
         <div class="feat-visual">
-          <img class="feat-img" src="https://picsum.photos/seed/cupones/800/700" alt="Cupones" style="width:100%;height:100%;object-fit:cover;filter:brightness(0.6)" />
+          <img class="feat-img" src="cupones-applied.png" alt="Cupones Lealtad" style="width:100%;height:100%;object-fit:cover;object-position:center top;filter:brightness(0.85)" />
         </div>
       </a>
 
@@ -257,7 +239,7 @@
     <!-- More projects — list only -->
     <div class="more-projects">
       <div class="more-left">
-        <p class="more-label"><span data-en="More projects" data-es="Más proyectos">More projects</span></p>
+        <p class="more-label">More projects</p>
         <div class="more-list">
           <a class="more-item" href="#" data-preview="https://picsum.photos/seed/cybersource/600/750">
             <span class="more-arrow-icon">↗</span>
@@ -303,11 +285,11 @@
 
   <section id="about">
     <div class="reveal">
-      <h2 class="about-heading"><span data-en="Design as a" data-es="El diseño como">Design as a</span><br><em data-en="language" data-es="lenguaje">language</em><br><span data-en="for people" data-es="para las personas">for people</span></h2>
+      <h2 class="about-heading">Design as a<br><em>language</em><br>for people</h2>
     </div>
     <div class="reveal" style="transition-delay:0.15s">
-      <p class="about-text"><span data-en="I'm Ivonne González García, a UX/UI designer focused on creating interfaces that feel intuitive, beautiful, and human. My interdisciplinary background lets me connect research insights with visual craft to deliver experiences that truly resonate." data-es="Soy Ivonne González García, diseñadora UX/UI enfocada en crear interfaces que se sienten intuitivas, bellas y humanas. Mi formación interdisciplinaria me permite conectar insights de investigación con el oficio visual para entregar experiencias que realmente resuenan.">I'm Ivonne González García, a UX/UI designer focused on creating interfaces that feel intuitive, beautiful, and human. My interdisciplinary background lets me connect research insights with visual craft to deliver experiences that truly resonate.</span></p>
-      <p class="about-text"><span data-en="I work closely with clients to understand their goals and translate them into digital products that make a real difference. Every pixel has a purpose." data-es="Trabajo de cerca con clientes para entender sus objetivos y traducirlos en productos digitales que hacen una diferencia real. Cada pixel tiene un propósito.">I work closely with clients to understand their goals and translate them into digital products that make a real difference. Every pixel has a purpose.</span></p>
+      <p class="about-text">I'm Ivonne González García, a UX/UI designer focused on creating interfaces that feel intuitive, beautiful, and human. My interdisciplinary background lets me connect research insights with visual craft to deliver experiences that truly resonate.</p>
+      <p class="about-text">I work closely with clients to understand their goals and translate them into digital products that make a real difference. Every pixel has a purpose.</p>
       <div class="skills-grid">
         <div class="skill-item">UX Research</div>
         <div class="skill-item">UI Design</div>
@@ -319,10 +301,10 @@
     </div>
   </section>
   <section id="contact">
-    <h2 class="contact-title reveal"><span data-en="Let's make" data-es="Hagamos">Let's make</span><br><em data-en="something" data-es="algo">something</em><br><span data-en="great together" data-es="increíble juntos">great together</span></h2>
+    <h2 class="contact-title reveal">Let's make<br><em>something</em><br>great together</h2>
     <div class="cta-group reveal" style="transition-delay:0.15s">
-      <a href="#" id="cta-email" class="btn btn-primary"><span data-en="Say hello ↗" data-es="Escríbeme ↗">Say hello ↗</span></a>
-      <a href="#" class="btn btn-secondary"><span data-en="LinkedIn — coming soon" data-es="LinkedIn — próximamente">LinkedIn — coming soon</span></a>
+      <a href="#" id="cta-email" class="btn btn-primary">Say hello ↗</a>
+      <a href="#" class="btn btn-secondary">LinkedIn — coming soon</a>
     </div>
   </section>
   <footer>
@@ -379,24 +361,6 @@
         rightImg.classList.remove('visible');
       });
     });
-  </script>
-
-  <script>
-    var currentLang = 'en';
-    function setLang(lang) {
-      currentLang = lang;
-      document.querySelectorAll('[data-en]').forEach(function(el) {
-        el.innerHTML = lang === 'es' ? el.getAttribute('data-es') : el.getAttribute('data-en');
-      });
-      var btn = document.getElementById('lang-btn');
-      if (btn) btn.textContent = lang === 'en' ? 'ES' : 'EN';
-      document.documentElement.lang = lang;
-      localStorage.setItem('lang', lang);
-    }
-    function toggleLang() { setLang(currentLang === 'en' ? 'es' : 'en'); }
-    // Restore saved lang
-    var saved = localStorage.getItem('lang');
-    if (saved && saved !== 'en') setLang(saved);
   </script>
 </body>
 </html>
